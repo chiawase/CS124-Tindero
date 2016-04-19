@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/etUsername"
         android:linksClickable="false"
         android:textColorHint="@color/placey"
         android:hint="Username"
@@ -55,12 +55,12 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_below="@+id/editText"
-        android:layout_alignStart="@+id/editText"
+        android:id="@+id/etPassword"
+        android:layout_below="@+id/etUsername"
+        android:layout_alignStart="@+id/etUsername"
         android:hint="Password"
         android:textColorHint="@color/placey"
-        android:layout_alignEnd="@+id/editText" />
+        android:layout_alignEnd="@+id/etUsername" />
 
     <Button
         android:layout_width="match_parent"
@@ -70,22 +70,31 @@
         android:background="@drawable/loginbutton"
         android:paddingTop = "5dip"
         android:textColor="#FFFFFF"
-        android:layout_below="@+id/button"
-        android:layout_alignStart="@+id/editText2"
-        android:layout_marginTop="20dip"
-        android:layout_alignEnd="@+id/editText2" />
+        android:layout_below="@+id/cbRememberMe"
+        android:layout_alignStart="@+id/etPassword"
+        android:layout_marginTop="27dp"
+        android:layout_alignEnd="@+id/etPassword" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="30dip"
-        android:text="LOGIN"
-        android:id="@+id/button"
+        android:text="LOG IN"
+        android:id="@+id/logButton"
         android:background="@drawable/loginbutton"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/etPassword"
         android:layout_marginTop="35dp"
         android:layout_alignStart="@+id/signup"
-        android:layout_alignEnd="@+id/editText2"
+        android:layout_alignEnd="@+id/etPassword"
         android:textColor="#FFFFFF" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remember Me"
+        android:id="@+id/cbRememberMe"
+        android:layout_below="@+id/logButton"
+        android:layout_centerHorizontal="true"
+        android:checked="false" />
 
 
 </RelativeLayout>

@@ -69,4 +69,15 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_setter">Settings</string>
+
+    <string-array name="users">
+        <item>Taeyeon,030989</item>
+        <item>Jessica,041889</item>
+        <item>Tiffany,080189</item>
+        <item>Hyoyeon,092389</item>
+        <item>Yuri,120589</item>
+        <item>Sooyoung,021090</item>
+        <item>Yoona,053090</item>
+        <item>Seohyun,062891</item>
+    </string-array>
 </resources>
