@@ -1,15 +1,17 @@
 import java.util.ArrayList;
 
-public class Freelancer extends User implements Observer{
+public class Freelancer extends User implements Subject, Observer{
 	private double rating;
 	private Skill skill;
-	private ArrayList<Subject> employer;
+	private ArrayList<Subject> employerSubject;
+	private ArrayList<Observer> employerObserver;
 	
 	public Freelancer(String username)
 	{
 		setUsername(username);
 		this.skill = null;
-		employer = new ArrayList<Subject>();
+		employerSubject = new ArrayList<Subject>();
+		employerObserver = new ArrayList<Observer>();
 	}
 
 	@Override
@@ -36,7 +38,36 @@ public class Freelancer extends User implements Observer{
 	
 	// Apply for a specific Employer
 	public void apply(Subject e){
-		employer.add(e);
+		employerSubject.add(e);
 		e.registerObserver(this);
+	}
+	
+	
+	// employers who are interested with the Freelancer
+	@Override
+	public void registerObserver(Observer o) {
+		employerObserver.add(o);	
+	}
+
+	// decline 
+	@Override
+	public void removeObserver(Observer o) {
+		int i = employerObserver.indexOf(o);
+		if(i >= 0)
+		{
+			employerObserver.remove(i);
+		}
+		
+	}
+
+	@Override
+	public void notifyObserver(Observer o) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public ArrayList<Observer> getObserver()
+	{
+		return employerObserver;
 	}
 }

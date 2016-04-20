@@ -9,6 +9,7 @@ public class Main {
 		Freelancer drake = new Freelancer("drake");
 		Freelancer kimk = new Freelancer("kim k");
 		Employer kanye = new Employer("kanye");
+		Employer rihanna = new Employer("rihanna");
 		
 		// empty observers for kanye
 		temp = kanye.getObserver();
@@ -36,6 +37,18 @@ public class Main {
 		// Joel and drake will apply to Kanye
 		kanye.removeObserver(joel);
 		temp = kanye.getObserver();
+		for(Observer t: temp)
+		{
+			User user = (User) t;
+			System.out.println("  " + user.getUsername());
+		}
+		
+		System.out.println("\n\nJoel, a freelancer, can be a subject for Employers looking to hire him");
+		System.out.println("List of Employers who are interested with Joel: ");
+		// Joel and drake will apply to Kanye
+		kanye.showInterest(joel);
+		rihanna.showInterest(joel);
+		temp = joel.getObserver();
 		for(Observer t: temp)
 		{
 			User user = (User) t;
