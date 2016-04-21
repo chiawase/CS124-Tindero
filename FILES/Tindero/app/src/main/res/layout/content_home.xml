@@ -13,13 +13,13 @@
     tools:showIn="@layout/activity_home"
     tools:context="com.tindero.tindero.Home"
     android:clickable="false"
-    android:background="@drawable/tbg">
+    android:background="@drawable/whatsup">
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/imageLogo"
-        android:background="@drawable/tbrandz"
+        android:background="@drawable/tinderologo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp" />
@@ -35,11 +35,12 @@
         android:layout_marginTop="34dp"
         android:textSize="34dp"
         android:textStyle="bold"
-        android:textColor="#857ec9" />
+        android:textColor="#FFFFFF"
+        />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/etUsername"
@@ -48,11 +49,15 @@
         android:hint="Username"
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/titleText"
-        android:layout_alignEnd="@+id/titleText" />
+        android:layout_alignEnd="@+id/titleText"
+        android:background="#FFFFFF"
+        android:fontFamily="Serif"
+        android:paddingLeft = "10dp"
+        android:fontFeatureSettings="Serif" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/etPassword"
@@ -60,41 +65,44 @@
         android:layout_alignStart="@+id/etUsername"
         android:hint="Password"
         android:textColorHint="@color/placey"
-        android:layout_alignEnd="@+id/etUsername" />
+        android:layout_alignEnd="@+id/etUsername"
+        android:background="#FFFFFF"
+        android:paddingLeft = "10dp"
+        android:fontFamily="Serif" />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="30dip"
+        android:layout_height="40dip"
         android:text="SIGN UP"
         android:id="@+id/signup"
-        android:background="@drawable/loginbutton"
-        android:paddingTop = "5dip"
+        android:background="#32bbb7"
+
         android:textColor="#FFFFFF"
-        android:layout_below="@+id/cbRememberMe"
         android:layout_alignStart="@+id/etPassword"
-        android:layout_marginTop="27dp"
+        android:layout_below="@+id/logButton"
         android:layout_alignEnd="@+id/etPassword" />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="30dip"
+        android:layout_height="40dip"
         android:text="LOG IN"
         android:id="@+id/logButton"
-        android:background="@drawable/loginbutton"
-        android:layout_below="@+id/etPassword"
-        android:layout_marginTop="35dp"
+        android:background="#448ccb"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/cbRememberMe"
         android:layout_alignStart="@+id/signup"
-        android:layout_alignEnd="@+id/etPassword"
-        android:textColor="#FFFFFF" />
+        android:layout_alignEnd="@+id/signup" />
 
-    <CheckBox
+        <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remember Me"
         android:id="@+id/cbRememberMe"
-        android:layout_below="@+id/logButton"
-        android:layout_centerHorizontal="true"
-        android:checked="false" />
+        android:checked="false"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/etPassword"
+        android:layout_alignStart="@+id/logButton"
+        android:layout_marginTop="41dp" />
 
 
 </RelativeLayout>

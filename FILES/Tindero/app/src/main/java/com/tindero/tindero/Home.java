@@ -24,10 +24,11 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TextView tv = (TextView) findViewById(R.id.titleText);
-        Typeface custom = Typeface.createFromAsset(getAssets(), "fonts/vscript.ttf");
-        //tv.setTypeface(custom);
         setContentView(R.layout.activity_home);
+        TextView tv = (TextView) findViewById(R.id.titleText);
+        Typeface custom = Typeface.createFromAsset(getAssets(), "fonts/Montserrat-Bold.otf");
+        tv.setTypeface(custom);
+
         Button log = (Button) findViewById(R.id.logButton);
         Button sign = (Button) findViewById(R.id.signup);
 
@@ -159,7 +160,7 @@ public class Home extends AppCompatActivity {
     public void signUp() {
         final Dialog selectType = new Dialog(this);
         selectType.setContentView(R.layout.signup_dialog);
-        selectType.setTitle("Sign Up");
+        selectType.setTitle("SIGN UP");
         selectType.show();
 
         Button freelancer = (Button) selectType.findViewById(R.id.bFreelancer);
