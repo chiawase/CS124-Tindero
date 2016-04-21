@@ -14,8 +14,11 @@ public class UserDbAdapter {
     protected static final String KEY_ROWID = "_id";
     protected static final String KEY_USERNAME = "username";
     protected static final String KEY_PASSWORD = "password";
+    protected static final String KEY_FULLNAME = "fullname";
+    protected static final String KEY_USERTYPE = "usertype";
+    protected static final String KEY_SKILLS = "skills";
 
-    private DatabaseHelper mDbHelper;
+    private static DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
     private static final int DATABASE_VERSION = 1;
@@ -30,11 +33,21 @@ public class UserDbAdapter {
                     + SQLITE_TABLE + " ("
                     + KEY_ROWID + " integer PRIMARY KEY autoincrement,"
                     + KEY_USERNAME + ","
-                    + KEY_PASSWORD + ");";
+                    + KEY_PASSWORD + ","
+                    + KEY_FULLNAME+ ","
+                    + KEY_USERTYPE + ","
+                    + KEY_SKILLS + ");";
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
-        DatabaseHelper(Context context) {
+        public static synchronized DatabaseHelper getInstance(Context ctx) {
+            if (mDbHelper == null) {
+                mDbHelper = new DatabaseHelper(ctx.getApplicationContext());
+            }
+            return mDbHelper;
+        }
+
+        private DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
@@ -58,9 +71,8 @@ public class UserDbAdapter {
     }
 
     public UserDbAdapter open() throws SQLException {
-        mDbHelper = new DatabaseHelper(mCtx);
+        mDbHelper = DatabaseHelper.getInstance(mCtx);
         mDb = mDbHelper.getWritableDatabase();
-
 
         return this;
     }
@@ -71,11 +83,14 @@ public class UserDbAdapter {
         }
     }
 
-    public long addUser(String user, String pass) {
+    public long addUser(String user, String pass, String name, String type, String skills) {
         // INSERT
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_USERNAME, user);
         initialValues.put(KEY_PASSWORD, pass);
+        initialValues.put(KEY_FULLNAME, name);
+        initialValues.put(KEY_USERTYPE, type);
+        initialValues.put(KEY_SKILLS, skills);
 
         // parameters
         // mDb.insert(table, nullColumnHack, values);
@@ -141,24 +156,12 @@ public class UserDbAdapter {
         // parameter descriptions
         // mDb.query(table, columns, selection, selectionArgs, groupBy, having, orderBy)
         Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] { KEY_ROWID,
-                KEY_USERNAME, KEY_PASSWORD }, null, null, null, null, null);
+                KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_SKILLS }, null, null, null, null, null);
 
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
         return mCursor;
-    }
-
-    // SEEDING
-    public void seed() {
-        // the Context is the Activity where this is currently used
-        String[] userData = mCtx.getResources().getStringArray(R.array.users);
-
-        // get string-array, parse and store
-        for (String r : userData) {
-            String[] data = r.split(",");
-            addUser(data[0], data[1]);
-        }
     }
 
     public boolean checkPassword(String name, String pass) {

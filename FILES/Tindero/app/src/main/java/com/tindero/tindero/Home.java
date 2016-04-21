@@ -1,17 +1,14 @@
 package com.tindero.tindero;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -117,9 +114,7 @@ public class Home extends AppCompatActivity {
             CheckBox cbRememberMe = (CheckBox) findViewById(R.id.cbRememberMe);
             boolean rememberMe = cbRememberMe.isChecked();
 
-            Cursor mCursor = dbHelper.fetchUserByName(u);
-
-            if (mCursor.getCount() == 0) {
+            if (!dbHelper.checkIfUserExists(u)) {
                 Toast.makeText(getApplicationContext(), "User does not exist.", Toast.LENGTH_SHORT).show();
             } else {
                 if (!dbHelper.checkPassword(u, p)) {
@@ -161,66 +156,40 @@ public class Home extends AppCompatActivity {
         editor.commit();
     }
 
-    public void signUp()
-    {
-        final Dialog register = new Dialog(this);
-        register.setContentView(R.layout.signup_dialog);
-        register.setTitle("Sign Up");
-        register.setCancelable(false);
-        register.getWindow().setLayout(400, 600);
-        register.show();
+    public void signUp() {
+        final Dialog selectType = new Dialog(this);
+        selectType.setContentView(R.layout.signup_dialog);
+        selectType.setTitle("Sign Up");
+        selectType.show();
 
-        Button cancel = (Button) register.findViewById(R.id.bCancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
+        Button freelancer = (Button) selectType.findViewById(R.id.bFreelancer);
+        freelancer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(register.getContext());
-                builder.setMessage("Are you sure?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                register.dismiss();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert = builder.create();
-                alert.show();
+                openNext("Freelancer");
             }
         });
 
-        Button ok = (Button) register.findViewById(R.id.bOK);
-        ok.setOnClickListener(new View.OnClickListener() {
-
+        Button employer = (Button) selectType.findViewById(R.id.bEmployer);
+        employer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                final EditText regUser = (EditText) register.findViewById(R.id.etRegUser);
-                final EditText regPass = (EditText) register.findViewById(R.id.etRegPass);
-                String newUsername = regUser.getText().toString();
-                String newPassword = regPass.getText().toString();
-
-                if (newUsername.length() == 0 || newPassword.length() == 0) {
-                    Toast.makeText(getApplicationContext(), "Field(s) must not be empty", Toast.LENGTH_SHORT).show();
-                }
-
-                else {
-                    if (dbHelper.checkIfUserExists(newUsername)) {
-                        Toast.makeText(getApplicationContext(), "User already exists.", Toast.LENGTH_SHORT).show();
-                    }
-
-                    else {
-                        dbHelper.addUser(newUsername, newPassword);
-
-                        Toast.makeText(getApplicationContext(), "Registration successful.", Toast.LENGTH_SHORT).show();
-                        register.dismiss();
-                    }
-                }
+                openNext("Employer");
             }
         });
+
+        Button back = (Button) selectType.findViewById(R.id.bBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectType.dismiss();
+            }
+        });
+    }
+
+    private void openNext(String type) {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        intent.putExtra("user_type", type);
+        startActivity(intent);
     }
 }

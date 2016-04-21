@@ -9,102 +9,39 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Home" >
 
+
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Sign up as:"
+        android:id="@+id/textView15"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:paddingRight="140dp"
-        android:text="Enter Username"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <EditText
-        android:id="@+id/etRegUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="textPersonName"/>
-    
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/etRegUser"
-        android:paddingRight="140dp"
-        android:paddingTop="20dp"
-        android:text="Enter Password"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <EditText
-        android:id="@+id/etRegPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/etRegUser"
-        android:layout_below="@+id/textView3"
-        android:ems="10"
-        android:inputType="textPassword" />
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/bOK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK"
-        android:layout_below="@+id/editText2"
-        android:layout_alignStart="@+id/textView14"
-        android:layout_marginTop="46dp" />
+        android:text="Freelancer"
+        android:id="@+id/bFreelancer"
+        android:layout_below="@+id/textView15"
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/bCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/bOK"
-        android:layout_alignBottom="@+id/bOK"
-        android:layout_alignRight="@+id/textView3"
-        android:text="Cancel" />
+        android:text="Employer"
+        android:id="@+id/bEmployer"
+        android:layout_below="@+id/bFreelancer"
+        android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/textView13"
+    <Button
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="140dp"
-        android:paddingTop="20dp"
-        android:text="Enter Full Name"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@+id/etRegPass"
-        android:layout_alignStart="@+id/textView3" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@+id/textView13"
-        android:layout_alignStart="@+id/etRegPass"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="140dp"
-        android:paddingTop="20dp"
-        android:text="Occupation(s)"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/textView13" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@+id/textView14"
-        android:layout_alignStart="@+id/editText"
-        android:inputType="textPersonName" />
+        android:text="Back"
+        android:id="@+id/bBack"
+        android:layout_below="@+id/bEmployer"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

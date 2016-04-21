@@ -22,6 +22,10 @@
             android:id="@+id/nav_matches"
             android:icon="@drawable/ic_menu_manage"
             android:title="Matches"/>
+        <item
+            android:id="@+id/nav_view"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="View Users"/>
     </group>
 
     <item android:title="About Tindero">

@@ -86,6 +86,9 @@ public class prof extends AppCompatActivity
         } else if (id == R.id.nav_matches) {
             Intent intent = new Intent(prof.this, match.class);
             startActivity(intent);
+        } else if (id == R.id.nav_view) {
+            Intent intent = new Intent(prof.this, UserListActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
