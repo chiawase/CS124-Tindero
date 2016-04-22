@@ -27,16 +27,14 @@ public class UserListActivity extends ListActivity {
 
         dbHelper = new UserDbAdapter(this);
         dbHelper.open();
-        //dbHelper.deleteAllUsers();
-        //dbHelper.seed();
 
         Cursor cursor = dbHelper.fetchAllUsers();
 
         dataAdapter = new SimpleCursorAdapter(this,
                 R.layout.row,
                 cursor,
-                new String[] { UserDbAdapter.KEY_ROWID, UserDbAdapter.KEY_FULLNAME, UserDbAdapter.KEY_USERTYPE, UserDbAdapter.KEY_SKILLS, },
-                new int[]    { R.id.listID, R.id.listFullName, R.id.listUserType, R.id.listSkills },
+                new String[] { UserDbAdapter.KEY_FULLNAME, UserDbAdapter.KEY_USERTYPE, UserDbAdapter.KEY_SKILLS, },
+                new int[]    { R.id.listFullName, R.id.listUserType, R.id.listDescription },
                 0 );
 
         ListView lv = getListView();
@@ -88,7 +86,12 @@ public class UserListActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, final int position, long id) {
         super.onListItemClick(l, v, position, id);
+
+        Cursor cursor = (Cursor)l.getAdapter().getItem(position);
+        String username = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USERNAME));
+
         Intent intent = new Intent(UserListActivity.this, prof.class);
+        intent.putExtra(UserDbAdapter.KEY_USERNAME, username);
         startActivity(intent);
     }
 }

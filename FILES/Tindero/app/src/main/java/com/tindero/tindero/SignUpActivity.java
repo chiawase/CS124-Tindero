@@ -25,9 +25,23 @@ public class SignUpActivity extends AppCompatActivity {
         dbHelper.open();
 
         Intent intent = getIntent();
-        String type = intent.getStringExtra("user_type");
+        String type = intent.getStringExtra(UserDbAdapter.KEY_USERTYPE);
         TextView tv = (TextView) findViewById(R.id.tvUserType);
         tv.setText(type);
+
+        if(type.equals("Employer")) {
+            TextView tvSkills = (TextView) findViewById(R.id.tvSkills);
+            CheckBox cbFeed = (CheckBox) findViewById(R.id.cbFeedPets);
+            CheckBox cbHouse = (CheckBox) findViewById(R.id.cbHousekeeping);
+            CheckBox cbLaundry = (CheckBox) findViewById(R.id.cbLaundry);
+            CheckBox cbWater = (CheckBox) findViewById(R.id.cbWaterPlants);
+
+            tvSkills.setVisibility(View.GONE);
+            cbFeed.setVisibility(View.GONE);
+            cbHouse.setVisibility(View.GONE);
+            cbLaundry.setVisibility(View.GONE);
+            cbWater.setVisibility(View.GONE);
+        }
 
         Button finish = (Button) findViewById(R.id.bSignFinish);
         finish.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Successfully signed up.", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(SignUpActivity.this, prof.class);
+                intent.putExtra(UserDbAdapter.KEY_USERNAME, newUsername);
                 startActivity(intent);
             }
         }

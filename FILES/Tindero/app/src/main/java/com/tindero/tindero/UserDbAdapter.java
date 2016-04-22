@@ -126,22 +126,33 @@ public class UserDbAdapter {
     public Cursor fetchUserByName(String inputText) throws SQLException {
         Cursor mCursor = null;
         if (inputText == null || inputText.length() == 0) {
-
-            mCursor = mDb.query(SQLITE_TABLE,
-                    new String[] { KEY_ROWID,
-                            KEY_USERNAME,
-                            KEY_PASSWORD },
-                    null, null, null, null, null);
-
             throw new RuntimeException("Need a name");
 
         } else {
             mCursor = mDb.query(true,
                     SQLITE_TABLE,
-                    new String[] { KEY_ROWID,
-                            KEY_USERNAME,
-                            KEY_PASSWORD },
-                    KEY_USERNAME + " = '" + inputText+ "'",
+                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_SKILLS },
+                    KEY_USERNAME + " = '" + inputText + "'",
+                    null, null, null, null, null);
+        }
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+
+        return mCursor;
+    }
+
+    public Cursor fetchUserByType(String inputText) throws SQLException {
+        Cursor mCursor = null;
+        if (inputText == null || inputText.length() == 0) {
+            throw new RuntimeException("Need a type");
+
+        } else {
+            mCursor = mDb.query(true,
+                    SQLITE_TABLE,
+                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_SKILLS},
+                    KEY_USERTYPE + " = '" + inputText + "'",
                     null, null, null, null, null);
         }
 
@@ -167,9 +178,7 @@ public class UserDbAdapter {
     public boolean checkPassword(String name, String pass) {
         String storedPass = fetchUserByName(name).getString(fetchUserByName(name).getColumnIndex(KEY_PASSWORD));
 
-        if (pass.equals(storedPass)) {
-            return true;
-        } else return false;
+        return pass.equals(storedPass);
     }
 
     public boolean checkIfUserExists(String inputText)

@@ -35,19 +35,18 @@ public class Home extends AppCompatActivity {
         dbHelper = new UserDbAdapter(this);
         dbHelper.open();
         //dbHelper.deleteAllUsers();
-        //dbHelper.seed();
 
         prefs = getSharedPreferences("user_info", MODE_PRIVATE);
         editor = prefs.edit();
         editor.apply();
 
         boolean rememberMe = prefs.getBoolean("rememberMe", false);
-        String storedUser = prefs.getString("username", "");
-        String storedPass = prefs.getString("password", "");
+        String storedUser = prefs.getString(UserDbAdapter.KEY_USERNAME, "");
+        String storedPass = prefs.getString(UserDbAdapter.KEY_PASSWORD, "");
 
         if(rememberMe && dbHelper.checkIfUserExists(storedUser))
         {
-            if (prefs.contains("username") && prefs.contains("password")) {
+            if (prefs.contains(UserDbAdapter.KEY_USERNAME) && prefs.contains(UserDbAdapter.KEY_PASSWORD)) {
                 EditText user = (EditText) findViewById(R.id.etUsername);
                 user.setText(storedUser);
                 EditText pass = (EditText) findViewById(R.id.etPassword);
@@ -129,6 +128,7 @@ public class Home extends AppCompatActivity {
                     }
 
                     Intent intent = new Intent(Home.this, prof.class);
+                    intent.putExtra(UserDbAdapter.KEY_USERNAME, u);
                     startActivity(intent);
                 }
             }
@@ -138,11 +138,11 @@ public class Home extends AppCompatActivity {
     private void savePrefs() {
         EditText user = (EditText) findViewById(R.id.etUsername);
         String u = user.getText().toString();
-        editor.putString("username", u);
+        editor.putString(UserDbAdapter.KEY_USERNAME, u);
 
         EditText pass = (EditText) findViewById(R.id.etPassword);
         String p = pass.getText().toString();
-        editor.putString("password", p);
+        editor.putString(UserDbAdapter.KEY_PASSWORD, p);
 
         editor.putBoolean("rememberMe", true);
 
@@ -151,8 +151,8 @@ public class Home extends AppCompatActivity {
 
     private void clearPrefs() {
         editor.putBoolean("rememberMe", false);
-        //editor.remove("username");
-        //editor.remove("password");
+        //editor.remove(UserDbAdapter.KEY_USERNAME);
+        //editor.remove(UserDbAdapter.KEY_PASSWORD);
         //editor.clear();
         editor.commit();
     }
@@ -190,7 +190,7 @@ public class Home extends AppCompatActivity {
 
     private void openNext(String type) {
         Intent intent = new Intent(this, SignUpActivity.class);
-        intent.putExtra("user_type", type);
+        intent.putExtra(UserDbAdapter.KEY_USERTYPE, type);
         startActivity(intent);
     }
 }

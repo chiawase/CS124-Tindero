@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Juan De La Cruz"
-        android:id="@+id/textView2"
+        android:id="@+id/tvProfileName"
         android:textColor="#000000"
         android:textStyle="bold"
         android:textSize="20dp"
@@ -31,18 +31,19 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="EMPLOYER"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+        android:id="@+id/tvProfileUserType"
+        android:layout_below="@+id/tvProfileName"
+        android:layout_alignStart="@+id/tvProfileName" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Contact Number:"
+        android:textColor="#000000"
         android:id="@+id/textView4"
         android:layout_alignBottom="@+id/imageView"
-        android:layout_alignStart="@+id/textView3"
+        android:layout_alignStart="@+id/tvProfileUserType"
         android:layout_marginBottom="39dp" />
 
     <TextView
@@ -50,7 +51,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="09178286689"
-        android:id="@+id/textView5"
+        android:id="@+id/tvProfileContact"
         android:layout_alignBottom="@+id/imageView"
         android:layout_alignStart="@+id/textView4" />
 
@@ -59,7 +60,7 @@
         android:layout_height="180dp"
         android:id="@+id/imageView"
         android:background="@drawable/defaulter"
-        android:layout_alignTop="@+id/textView2"
+        android:layout_alignTop="@+id/tvProfileName"
         android:layout_alignEnd="@+id/textView7"
         android:layout_marginEnd="25dp"
         android:layout_alignParentStart="true" />
@@ -72,7 +73,7 @@
         android:id="@+id/textView6"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignEnd="@+id/tvProfileName"
         android:background="#448ccb"
         android:paddingTop = "10dp"
         android:paddingLeft="25dp"
@@ -90,7 +91,9 @@
         android:paddingLeft="25dp"
         android:layout_below="@+id/textView6"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="31dp" />
+        android:layout_marginTop="31dp"
+        android:onClick="turnOffNotifications"
+        android:clickable="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -101,7 +104,9 @@
         android:layout_below="@+id/textView7"
         android:layout_alignParentStart="true"
         android:layout_marginStart="23dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:onClick="editProfile"
+        android:clickable="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -111,6 +116,29 @@
         android:id="@+id/textView9"
         android:layout_below="@+id/textView8"
         android:layout_alignStart="@+id/textView8"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:onClick="logOut"
+        android:clickable="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Skills"
+        android:textColor="#000000"
+        android:id="@+id/tvProfileSkills"
+        android:layout_below="@+id/tvProfileContact"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Skills List"
+        android:id="@+id/tvProfileSkillsList"
+        android:layout_alignBaseline="@+id/tvProfileSkills"
+        android:layout_alignBottom="@+id/tvProfileSkills"
+        android:layout_toEndOf="@+id/tvProfileSkills"
+        android:layout_marginStart="18dp" />
 
 </RelativeLayout>
