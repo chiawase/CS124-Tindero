@@ -3,9 +3,6 @@ package com.tindero.tindero;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,9 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class prof extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -110,20 +110,26 @@ public class prof extends AppCompatActivity
         UserDbAdapter dbHelper = new UserDbAdapter(this);
         dbHelper.open();
         Cursor cursor = dbHelper.fetchUserByName(username);
+        String j = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USER_JSON));
+
+        JsonParser parser = new JsonParser();
+        JsonObject o = parser.parse(j).getAsJsonObject();
+        Gson gson = new Gson();
+        User user = gson.fromJson(o, User.class);
 
         TextView tvProfileName = (TextView) findViewById(R.id.tvProfileName);
         TextView tvProfileUserType = (TextView) findViewById(R.id.tvProfileUserType);
         TextView tvProfileSkills = (TextView) findViewById(R.id.tvProfileSkills);
         TextView tvProfileSkillsList = (TextView) findViewById(R.id.tvProfileSkillsList);
 
-        if(cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USERTYPE)).equals("Employer")) {
+        if(user.getUserType().equals("Employer")) {
             tvProfileSkills.setVisibility(View.GONE);
             tvProfileSkillsList.setVisibility(View.GONE);
         }
 
-        tvProfileName.setText(cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_FULLNAME)));
-        tvProfileUserType.setText(cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USERTYPE)));
-        tvProfileSkillsList.setText(cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_SKILLS)));
+        tvProfileName.setText(user.getFullName());
+        tvProfileUserType.setText(user.getUserType());
+        tvProfileSkillsList.setText(user.getDescription());
         cursor.close();
     }
 

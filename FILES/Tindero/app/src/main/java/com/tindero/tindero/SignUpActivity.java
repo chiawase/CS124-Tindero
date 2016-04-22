@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 public class SignUpActivity extends AppCompatActivity {
     private UserDbAdapter dbHelper;
 
@@ -25,7 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
         dbHelper.open();
 
         Intent intent = getIntent();
-        String type = intent.getStringExtra(UserDbAdapter.KEY_USERTYPE);
+        String type = intent.getStringExtra(UserDbAdapter.KEY_USER_TYPE);
         TextView tv = (TextView) findViewById(R.id.tvUserType);
         tv.setText(type);
 
@@ -88,7 +90,12 @@ public class SignUpActivity extends AppCompatActivity {
                 if (cbLaundry.isChecked()){ skill = new Laundry(skill); }
                 if (cbWater.isChecked()){ skill = new WaterThePlants(skill); }
 
-                dbHelper.addUser(newUsername, newPassword, newName, type, ""+ skill.getDescription());
+                User user = new User(newUsername, newPassword, newName, type, "contactNum", "emailAddress", skill.getDescription());
+
+                Gson gson = new Gson();
+                String user_json = gson.toJson(user);
+
+                dbHelper.addUser(newUsername, newPassword, user_json);
                 Toast.makeText(getApplicationContext(), "Successfully signed up.", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(SignUpActivity.this, prof.class);

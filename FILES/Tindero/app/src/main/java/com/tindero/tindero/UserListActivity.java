@@ -33,8 +33,8 @@ public class UserListActivity extends ListActivity {
         dataAdapter = new SimpleCursorAdapter(this,
                 R.layout.row,
                 cursor,
-                new String[] { UserDbAdapter.KEY_FULLNAME, UserDbAdapter.KEY_USERTYPE, UserDbAdapter.KEY_SKILLS, },
-                new int[]    { R.id.listFullName, R.id.listUserType, R.id.listDescription },
+                new String[] { UserDbAdapter.KEY_USERNAME, UserDbAdapter.KEY_PASSWORD/*, UserDbAdapter.KEY_DESCRIPTION*/ },
+                new int[]    { R.id.listFullName, R.id.listUserType/*, R.id.listDescription*/ },
                 0 );
 
         ListView lv = getListView();

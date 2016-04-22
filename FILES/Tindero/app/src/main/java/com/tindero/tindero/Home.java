@@ -190,7 +190,7 @@ public class Home extends AppCompatActivity {
 
     private void openNext(String type) {
         Intent intent = new Intent(this, SignUpActivity.class);
-        intent.putExtra(UserDbAdapter.KEY_USERTYPE, type);
+        intent.putExtra(UserDbAdapter.KEY_USER_TYPE, type);
         startActivity(intent);
     }
 }

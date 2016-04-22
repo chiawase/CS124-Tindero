@@ -14,9 +14,8 @@ public class UserDbAdapter {
     protected static final String KEY_ROWID = "_id";
     protected static final String KEY_USERNAME = "username";
     protected static final String KEY_PASSWORD = "password";
-    protected static final String KEY_FULLNAME = "fullname";
-    protected static final String KEY_USERTYPE = "usertype";
-    protected static final String KEY_SKILLS = "skills";
+    protected static final String KEY_USER_JSON = "user_json";
+    protected static final String KEY_USER_TYPE = "user_type";
 
     private static DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -34,9 +33,7 @@ public class UserDbAdapter {
                     + KEY_ROWID + " integer PRIMARY KEY autoincrement,"
                     + KEY_USERNAME + ","
                     + KEY_PASSWORD + ","
-                    + KEY_FULLNAME+ ","
-                    + KEY_USERTYPE + ","
-                    + KEY_SKILLS + ");";
+                    + KEY_USER_JSON + ");";
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -67,6 +64,7 @@ public class UserDbAdapter {
 
     // LIFE CYCLE
     public UserDbAdapter(Context ctx) {
+        //ctx.deleteDatabase(DATABASE_NAME); //delete database
         this.mCtx = ctx;
     }
 
@@ -83,14 +81,12 @@ public class UserDbAdapter {
         }
     }
 
-    public long addUser(String user, String pass, String name, String type, String skills) {
+    public long addUser(String user, String pass, String user_json) {
         // INSERT
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_USERNAME, user);
         initialValues.put(KEY_PASSWORD, pass);
-        initialValues.put(KEY_FULLNAME, name);
-        initialValues.put(KEY_USERTYPE, type);
-        initialValues.put(KEY_SKILLS, skills);
+        initialValues.put(KEY_USER_JSON, user_json);
 
         // parameters
         // mDb.insert(table, nullColumnHack, values);
@@ -98,11 +94,12 @@ public class UserDbAdapter {
         return mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
-    public long updateUser(String rowId, String user, String pass) {
+    public long updateUser(String rowId, String user, String pass, String user_json) {
         // INSERT
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_USERNAME, user);
         initialValues.put(KEY_PASSWORD, pass);
+        initialValues.put(KEY_USER_JSON, user_json);
         // String whereArgs[] = new String[1];
         //  whereArgs[0] = "" + rowId;
 
@@ -131,28 +128,8 @@ public class UserDbAdapter {
         } else {
             mCursor = mDb.query(true,
                     SQLITE_TABLE,
-                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_SKILLS },
+                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_USER_JSON },
                     KEY_USERNAME + " = '" + inputText + "'",
-                    null, null, null, null, null);
-        }
-
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-
-        return mCursor;
-    }
-
-    public Cursor fetchUserByType(String inputText) throws SQLException {
-        Cursor mCursor = null;
-        if (inputText == null || inputText.length() == 0) {
-            throw new RuntimeException("Need a type");
-
-        } else {
-            mCursor = mDb.query(true,
-                    SQLITE_TABLE,
-                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_SKILLS},
-                    KEY_USERTYPE + " = '" + inputText + "'",
                     null, null, null, null, null);
         }
 
@@ -167,7 +144,7 @@ public class UserDbAdapter {
         // parameter descriptions
         // mDb.query(table, columns, selection, selectionArgs, groupBy, having, orderBy)
         Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] { KEY_ROWID,
-                KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_SKILLS }, null, null, null, null, null);
+                KEY_USERNAME, KEY_PASSWORD, KEY_USER_JSON }, null, null, null, null, null);
 
         if (mCursor != null) {
             mCursor.moveToFirst();
