@@ -7,6 +7,6 @@ public class FeedThePets extends SkillDecorator {
 
 	@Override
 	public String getDescription() {
-		return skill.getDescription() + "Can feed the pets\n";
+		return skill.getDescription() + "FTP ";
 	}
 }

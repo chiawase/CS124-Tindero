@@ -7,6 +7,6 @@ public class WaterThePlants extends SkillDecorator {
 
 	@Override
 	public String getDescription() {
-		return skill.getDescription() + "Can water the plants\n";
+		return skill.getDescription() + "WTP ";
 	}
 }

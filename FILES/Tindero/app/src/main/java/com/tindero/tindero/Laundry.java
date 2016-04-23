@@ -7,6 +7,6 @@ public class Laundry extends SkillDecorator {
 
 	@Override
 	public String getDescription() {
-		return skill.getDescription() + "Laundry\n";
+		return skill.getDescription() + "LA ";
 	}
 }

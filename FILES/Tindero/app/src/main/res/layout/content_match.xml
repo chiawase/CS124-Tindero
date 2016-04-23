@@ -31,7 +31,7 @@
         android:textStyle="bold"
         android:textSize="25dp"
         android:paddingTop="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_alignParentEnd="true"
         android:paddingLeft="15dp"/>
 
@@ -42,9 +42,6 @@
         android:text="House Cleaner"
         android:id="@+id/tvMatchUserType"
         android:layout_below="@+id/tvMatchName"
-        android:layout_alignParentStart="true" />
-        android:id="@+id/tSkill"
-        android:layout_below="@+id/tName"
         android:layout_alignParentStart="true"
         android:paddingLeft="15dp"/>
 
@@ -55,47 +52,51 @@
         android:text="QC"
         android:id="@+id/tvMatchDescription"
         android:layout_below="@+id/tvMatchUserType"
-        android:layout_alignParentStart="true" />
-        android:id="@+id/tArea"
-        android:layout_below="@+id/tSkill"
         android:layout_alignParentStart="true"
         android:paddingLeft="15dp"/>
 
+
     <ImageButton
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:id="@+id/imageButton2"
+        android:id="@+id/bDislike"
         android:background="@drawable/dislike"
-        android:layout_below="@+id/tvMatchDescription"
-        android:layout_toEndOf="@+id/tvMatchDescription"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop = "20dp"
-        android:onClick="dislike"/>
-        android:layout_below="@+id/tArea"
-        android:layout_toEndOf="@+id/tArea"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop = "30dp"
-        />
+        android:layout_marginLeft="70dp"
+        android:onClick="dislike"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"/>
+
     <ImageButton
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:id="@+id/imageButton3"
+        android:id="@+id/bLike"
         android:background="@drawable/like"
-        android:layout_alignTop="@+id/imageButton2"
-        android:layout_toEndOf="@+id/imageButton2"
-        android:layout_marginStart ="20dp"
-        android:onClick="like"/>
+        android:onClick="like"
+        android:layout_marginRight="70dp"
+        android:layout_below="@+id/tBack"
+        android:layout_alignEnd="@+id/tBack"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="300dp"
         android:id="@+id/tBack"
-        android:layout_below="@+id/imageButton"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/imageButton"
         android:background="#f16c6b"
         android:alpha="0.2"
-        android:layout_marginTop="20dp"
         android:allowUndo="false"
-        android:layout_above="@+id/imageButton2" />
+        android:layout_alignTop="@+id/tvMatchName"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/bDislike" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/tvMatchDescription"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/tBack"
+        android:background="#f16c6b"
+        android:alpha="0"
+        android:textStyle="italic"/>
 </RelativeLayout>

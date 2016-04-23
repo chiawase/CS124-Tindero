@@ -35,10 +35,19 @@ public class prof extends AppCompatActivity
         setContentView(R.layout.activity_prof);
         TextView tSet = (TextView) findViewById(R.id.tSettings);
         Typeface custom = Typeface.createFromAsset(getAssets(), "fonts/Montserrat-Bold.otf");
+        Typeface cR = Typeface.createFromAsset(getAssets(), "fonts/Montserrat-Regular.otf");
+        TextView tName = (TextView) findViewById(R.id.tvProfileName);
+        TextView tType = (TextView) findViewById(R.id.tvProfileUserType);
+        TextView tContact = (TextView) findViewById(R.id.tvProfileContact);
+        TextView tCn = (TextView) findViewById(R.id.tvContactNumber);
+        tName.setTypeface(custom);
+        tType.setTypeface(cR);
+        tContact.setTypeface(custom);
+        tCn.setTypeface(cR);
         tSet.setTypeface(custom);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("T I N D E R O");
+        getSupportActionBar().setTitle("TINDERO");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

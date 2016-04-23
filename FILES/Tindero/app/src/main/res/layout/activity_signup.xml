@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Medium Text"
+        android:text="S I G N  U P"
         android:id="@+id/tvUserType"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView13" />

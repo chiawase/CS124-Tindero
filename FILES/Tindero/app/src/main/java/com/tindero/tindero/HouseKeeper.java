@@ -7,6 +7,6 @@ public class HouseKeeper extends SkillDecorator {
 
 	@Override
 	public String getDescription() {
-		return skill.getDescription() + "Housekeeper\n";
+		return skill.getDescription() + "HK ";
 	}
 }

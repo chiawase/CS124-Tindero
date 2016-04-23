@@ -34,9 +34,6 @@ public class Home extends AppCompatActivity {
         log.setTypeface(customR);
         sign.setTypeface(customR);
 
-
-
-
         dbHelper = new UserDbAdapter(this);
         dbHelper.open();
         //dbHelper.deleteAllUsers();
@@ -165,7 +162,7 @@ public class Home extends AppCompatActivity {
     public void signUp() {
         final Dialog selectType = new Dialog(this);
         selectType.setContentView(R.layout.signup_dialog);
-        selectType.setTitle("SIGN UP");
+        selectType.setTitle("SIGN UP AS");
         selectType.show();
 
         Button freelancer = (Button) selectType.findViewById(R.id.bFreelancer);

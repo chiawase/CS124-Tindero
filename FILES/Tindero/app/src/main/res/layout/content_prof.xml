@@ -14,7 +14,7 @@
     android:background="#FFFFFF">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Juan De La Cruz"
@@ -27,33 +27,34 @@
         android:layout_marginTop="33dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="EMPLOYER"
         android:id="@+id/tvProfileUserType"
         android:layout_below="@+id/tvProfileName"
-        android:layout_alignStart="@+id/tvProfileName" />
+        android:layout_alignStart="@+id/tvProfileName"
+        />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Contact Number:"
         android:textColor="#000000"
-        android:id="@+id/textView4"
+        android:id="@+id/tvContactNumber"
         android:layout_alignBottom="@+id/imageView"
         android:layout_alignStart="@+id/tvProfileUserType"
         android:layout_marginBottom="39dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="09178286689"
         android:id="@+id/tvProfileContact"
         android:layout_alignBottom="@+id/imageView"
-        android:layout_alignStart="@+id/textView4" />
+        android:layout_alignStart="@+id/tvContactNumber" />
 
     <ImageView
         android:layout_width="100dp"
@@ -66,20 +67,18 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="S  E  T  T  I  N  G  S"
+        android:text="S E T T I N G S"
         android:id="@+id/tSettings"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/tvProfileName"
         android:background="#448ccb"
         android:paddingTop = "10dp"
         android:paddingLeft="25dp"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
-        />
+        android:layout_below="@+id/tvProfileSkills"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
