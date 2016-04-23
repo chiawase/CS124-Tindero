@@ -4,11 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="#f5f5f5">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< Updated upstream
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
         android:layout_weight="2">
@@ -31,6 +33,24 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
+=======
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="U  S  E  R    L  I  S  T"
+        android:textSize="20dp"
+        android:textColor="#FFFFFF"
+        android:background="#F16c6b"
+        android:textStyle="bold"
+        android:id="@+id/tTitle" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="380dp"
+        android:background="#f5f5f5" />
+>>>>>>> Stashed changes
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -39,12 +59,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="1">
 
-        <Button
-            android:id="@+id/bListBack"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Back" />
     </LinearLayout>
 
 </LinearLayout>

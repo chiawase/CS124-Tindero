@@ -3,7 +3,11 @@ package com.tindero.tindero;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
+<<<<<<< Updated upstream
 import android.database.MatrixCursor;
+=======
+import android.graphics.Typeface;
+>>>>>>> Stashed changes
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +21,7 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -31,6 +36,9 @@ public class UserListActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
+        TextView tvTitle = (TextView) findViewById(R.id.tTitle) ;
+        Typeface custom = Typeface.createFromAsset(getAssets(), "fonts/Montserrat-Bold.otf");
+        tvTitle.setTypeface(custom);
         setListAdapter(dataAdapter);
 
         dbHelper = new UserDbAdapter(this);
@@ -49,12 +57,13 @@ public class UserListActivity extends ListActivity {
         lv.setAdapter(dataAdapter);
         registerForContextMenu(lv);
 
-        Button back = (Button) findViewById(R.id.bListBack);
-        back.setOnClickListener(new View.OnClickListener() {
+        //Button back = (Button) findViewById(R.id.bListBack);
+       /** back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
+<<<<<<< Updated upstream
         });
 
         EditText myFilter = (EditText) findViewById(R.id.etFilter);
@@ -78,6 +87,9 @@ public class UserListActivity extends ListActivity {
                 return dbHelper.filterUsersByName(constraint.toString());
             }
         });
+=======
+        });**/
+>>>>>>> Stashed changes
     }
 
     @Override

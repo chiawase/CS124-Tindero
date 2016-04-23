@@ -25,42 +25,70 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="David Tamayo"
+<<<<<<< Updated upstream
         android:id="@+id/tvMatchName"
+=======
+        android:id="@+id/tName"
+>>>>>>> Stashed changes
         android:layout_below="@+id/imageButton"
         android:layout_alignParentStart="true"
         android:textStyle="bold"
         android:textSize="25dp"
         android:paddingTop="10dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="20dp"
+        android:layout_alignParentEnd="true"
+        android:paddingLeft="15dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="House Cleaner"
+<<<<<<< Updated upstream
         android:id="@+id/tvMatchUserType"
         android:layout_below="@+id/tvMatchName"
         android:layout_alignParentStart="true" />
+=======
+        android:id="@+id/tSkill"
+        android:layout_below="@+id/tName"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="15dp"/>
+>>>>>>> Stashed changes
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="QC"
+<<<<<<< Updated upstream
         android:id="@+id/tvMatchDescription"
         android:layout_below="@+id/tvMatchUserType"
         android:layout_alignParentStart="true" />
+=======
+        android:id="@+id/tArea"
+        android:layout_below="@+id/tSkill"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="15dp"/>
+>>>>>>> Stashed changes
 
     <ImageButton
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:id="@+id/imageButton2"
         android:background="@drawable/dislike"
+<<<<<<< Updated upstream
         android:layout_below="@+id/tvMatchDescription"
         android:layout_toEndOf="@+id/tvMatchDescription"
         android:layout_marginStart="50dp"
         android:layout_marginTop = "20dp"
         android:onClick="dislike"/>
+=======
+        android:layout_below="@+id/tArea"
+        android:layout_toEndOf="@+id/tArea"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop = "30dp"
+        />
+>>>>>>> Stashed changes
 
     <ImageButton
         android:layout_width="80dp"
@@ -70,6 +98,23 @@
         android:layout_alignTop="@+id/imageButton2"
         android:layout_toEndOf="@+id/imageButton2"
         android:layout_marginStart ="20dp"
+<<<<<<< Updated upstream
         android:onClick="like"/>
+=======
+       />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/tBack"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/imageButton"
+        android:background="#f16c6b"
+        android:alpha="0.2"
+        android:layout_marginTop="20dp"
+        android:allowUndo="false"
+        android:layout_above="@+id/imageButton2" />
+>>>>>>> Stashed changes
 
 </RelativeLayout>
