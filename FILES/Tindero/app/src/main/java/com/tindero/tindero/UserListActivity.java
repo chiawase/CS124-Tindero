@@ -3,16 +3,24 @@ package com.tindero.tindero;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class UserListActivity extends ListActivity {
 
@@ -33,8 +41,8 @@ public class UserListActivity extends ListActivity {
         dataAdapter = new SimpleCursorAdapter(this,
                 R.layout.row,
                 cursor,
-                new String[] { UserDbAdapter.KEY_USERNAME, UserDbAdapter.KEY_PASSWORD/*, UserDbAdapter.KEY_DESCRIPTION*/ },
-                new int[]    { R.id.listFullName, R.id.listUserType/*, R.id.listDescription*/ },
+                new String[] { UserDbAdapter.KEY_FULLNAME, UserDbAdapter.KEY_USERTYPE , UserDbAdapter.KEY_DESCRIPTION },
+                new int[]    { R.id.listFullName, R.id.listUserType, R.id.listDescription },
                 0 );
 
         ListView lv = getListView();
@@ -46,6 +54,28 @@ public class UserListActivity extends ListActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        EditText myFilter = (EditText) findViewById(R.id.etFilter);
+        myFilter.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                dataAdapter.getFilter().filter(s.toString());
+            }
+        });
+
+        dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            public Cursor runQuery(CharSequence constraint) {
+                return dbHelper.filterUsersByName(constraint.toString());
             }
         });
     }
@@ -90,7 +120,7 @@ public class UserListActivity extends ListActivity {
         Cursor cursor = (Cursor)l.getAdapter().getItem(position);
         String username = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USERNAME));
 
-        Intent intent = new Intent(UserListActivity.this, prof.class);
+        Intent intent = new Intent(UserListActivity.this, match.class);
         intent.putExtra(UserDbAdapter.KEY_USERNAME, username);
         startActivity(intent);
     }

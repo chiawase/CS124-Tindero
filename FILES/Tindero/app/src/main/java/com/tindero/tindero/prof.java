@@ -89,9 +89,6 @@ public class prof extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_matches) {
-            Intent intent = new Intent(prof.this, match.class);
-            startActivity(intent);
         } else if (id == R.id.nav_view) {
             Intent intent = new Intent(prof.this, UserListActivity.class);
             startActivity(intent);
@@ -114,17 +111,22 @@ public class prof extends AppCompatActivity
 
         JsonParser parser = new JsonParser();
         JsonObject o = parser.parse(j).getAsJsonObject();
+        String type = o.get("userType").getAsString();
+
         Gson gson = new Gson();
-        User user = gson.fromJson(o, User.class);
+        User user = null;
 
         TextView tvProfileName = (TextView) findViewById(R.id.tvProfileName);
         TextView tvProfileUserType = (TextView) findViewById(R.id.tvProfileUserType);
         TextView tvProfileSkills = (TextView) findViewById(R.id.tvProfileSkills);
         TextView tvProfileSkillsList = (TextView) findViewById(R.id.tvProfileSkillsList);
 
-        if(user.getUserType().equals("Employer")) {
+        if(type.equals("Employer")) {
             tvProfileSkills.setVisibility(View.GONE);
             tvProfileSkillsList.setVisibility(View.GONE);
+            user = gson.fromJson(o, Employer.class);
+        } else if (type.equals("Freelancer")) {
+            user = gson.fromJson(o, Freelancer.class);
         }
 
         tvProfileName.setText(user.getFullName());

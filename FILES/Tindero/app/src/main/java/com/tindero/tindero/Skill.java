@@ -1,7 +1,10 @@
 package com.tindero.tindero;
 
-public abstract class Skill {
+public class Skill extends User {
 	protected String description = "";
 
-	public abstract String getDescription();
+	public Skill() { description = ""; }
+
+	@Override
+	public String getDescription() { return description; }
 }

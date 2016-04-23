@@ -7,15 +7,14 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by Maan on 4/19/2016.
- */
 public class UserDbAdapter {
     protected static final String KEY_ROWID = "_id";
     protected static final String KEY_USERNAME = "username";
     protected static final String KEY_PASSWORD = "password";
     protected static final String KEY_USER_JSON = "user_json";
-    protected static final String KEY_USER_TYPE = "user_type";
+    protected static final String KEY_FULLNAME = "fullname";
+    protected static final String KEY_USERTYPE = "user_type";
+    protected static final String KEY_DESCRIPTION = "description";
 
     private static DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -33,6 +32,9 @@ public class UserDbAdapter {
                     + KEY_ROWID + " integer PRIMARY KEY autoincrement,"
                     + KEY_USERNAME + ","
                     + KEY_PASSWORD + ","
+                    + KEY_FULLNAME + ","
+                    + KEY_USERTYPE + ","
+                    + KEY_DESCRIPTION + ","
                     + KEY_USER_JSON + ");";
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -81,11 +83,14 @@ public class UserDbAdapter {
         }
     }
 
-    public long addUser(String user, String pass, String user_json) {
+    public long addUser(String user, String pass, String fName, String type, String description, String user_json) {
         // INSERT
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_USERNAME, user);
         initialValues.put(KEY_PASSWORD, pass);
+        initialValues.put(KEY_FULLNAME, fName);
+        initialValues.put(KEY_USERTYPE, type);
+        initialValues.put(KEY_DESCRIPTION, description);
         initialValues.put(KEY_USER_JSON, user_json);
 
         // parameters
@@ -94,11 +99,14 @@ public class UserDbAdapter {
         return mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
-    public long updateUser(String rowId, String user, String pass, String user_json) {
+    public long updateUser(String rowId, String user, String pass, String fName, String type, String description, String user_json) {
         // INSERT
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_USERNAME, user);
         initialValues.put(KEY_PASSWORD, pass);
+        initialValues.put(KEY_FULLNAME, fName);
+        initialValues.put(KEY_USERTYPE, type);
+        initialValues.put(KEY_DESCRIPTION, description);
         initialValues.put(KEY_USER_JSON, user_json);
         // String whereArgs[] = new String[1];
         //  whereArgs[0] = "" + rowId;
@@ -121,14 +129,15 @@ public class UserDbAdapter {
     }
 
     public Cursor fetchUserByName(String inputText) throws SQLException {
-        Cursor mCursor = null;
+        Cursor mCursor;
+
         if (inputText == null || inputText.length() == 0) {
             throw new RuntimeException("Need a name");
 
         } else {
             mCursor = mDb.query(true,
                     SQLITE_TABLE,
-                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_USER_JSON },
+                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_DESCRIPTION, KEY_USER_JSON },
                     KEY_USERNAME + " = '" + inputText + "'",
                     null, null, null, null, null);
         }
@@ -144,7 +153,7 @@ public class UserDbAdapter {
         // parameter descriptions
         // mDb.query(table, columns, selection, selectionArgs, groupBy, having, orderBy)
         Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] { KEY_ROWID,
-                KEY_USERNAME, KEY_PASSWORD, KEY_USER_JSON }, null, null, null, null, null);
+                KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_DESCRIPTION, KEY_USER_JSON }, null, null, null, null, null);
 
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -160,7 +169,7 @@ public class UserDbAdapter {
 
     public boolean checkIfUserExists(String inputText)
     {
-        Cursor mCursor = null;
+        Cursor mCursor;
 
         mCursor = mDb.query(true,
                 SQLITE_TABLE,
@@ -171,17 +180,29 @@ public class UserDbAdapter {
                 null, null, null, null, null);
 
         if(mCursor.moveToFirst()) {
+            mCursor.close();
             return true;
         } else return false;
     }
 
-    public boolean isTableEmpty()
-    {
-        Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] { KEY_ROWID,
-                KEY_USERNAME, KEY_PASSWORD }, null, null, null, null, null);
+    public Cursor filterUsersByName(String inputText) throws SQLException {
+        Cursor mCursor;
+        if (inputText == null || inputText.length() == 0) {
+            mCursor = mDb.query(SQLITE_TABLE,
+                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_DESCRIPTION, KEY_USER_JSON },
+                    null, null, null, null, null);
+        } else {
+            mCursor = mDb.query(true,
+                    SQLITE_TABLE,
+                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_DESCRIPTION, KEY_USER_JSON },
+                    KEY_USERNAME + " like '%" + inputText + "%'",
+                    null, null, null, null, null);
+        }
 
-        if (mCursor.moveToFirst()) {
-            return false;
-        } else return true;
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+
+        return mCursor;
     }
 }

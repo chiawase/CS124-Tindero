@@ -1,9 +1,6 @@
 package com.tindero.tindero;
 
-/**
- * Created by Maan on 4/21/2016.
- */
-public class User {
+public abstract class User {
 
     private String username;
     private String password;
@@ -12,16 +9,6 @@ public class User {
     private String contactNum;
     private String emailAddress;
     private String description = "";
-
-    public User(String name, String pass, String fName, String type, String contactNum, String emailAddress, String desc) {
-        this.username = name;
-        this.password = pass;
-        this.fullName = fName;
-        this.userType = type;
-        this.contactNum = contactNum;
-        this.emailAddress = emailAddress;
-        this.description = desc;
-    }
 
     public String getUsername() {
         return this.username;

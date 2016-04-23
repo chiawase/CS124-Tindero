@@ -27,7 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
         dbHelper.open();
 
         Intent intent = getIntent();
-        String type = intent.getStringExtra(UserDbAdapter.KEY_USER_TYPE);
+        String type = intent.getStringExtra(UserDbAdapter.KEY_USERTYPE);
         TextView tv = (TextView) findViewById(R.id.tvUserType);
         tv.setText(type);
 
@@ -84,18 +84,25 @@ public class SignUpActivity extends AppCompatActivity {
                 CheckBox cbLaundry = (CheckBox) findViewById(R.id.cbLaundry);
                 CheckBox cbWater = (CheckBox) findViewById(R.id.cbWaterPlants);
 
-                Skill skill = new DefaultSkill();
-                if (cbFeed.isChecked()) { skill = new FeedThePets(skill); }
-                if (cbHouse.isChecked()){ skill = new HouseKeeper(skill); }
-                if (cbLaundry.isChecked()){ skill = new Laundry(skill); }
-                if (cbWater.isChecked()){ skill = new WaterThePlants(skill); }
-
-                User user = new User(newUsername, newPassword, newName, type, "contactNum", "emailAddress", skill.getDescription());
-
                 Gson gson = new Gson();
-                String user_json = gson.toJson(user);
+                String user_json = "";
+                User user = null;
 
-                dbHelper.addUser(newUsername, newPassword, user_json);
+                if(type.equals("Employer")) {
+                    user = new Employer(newUsername, newPassword, newName, type, "contactNum", "emailAddress", "");
+                }
+
+                else if(type.equals("Freelancer")) {
+                    Skill skill = new Skill();
+                    if (cbFeed.isChecked()) { skill = new FeedThePets(skill); }
+                    if (cbHouse.isChecked()){ skill = new HouseKeeper(skill); }
+                    if (cbLaundry.isChecked()){ skill = new Laundry(skill); }
+                    if (cbWater.isChecked()){ skill = new WaterThePlants(skill); }
+                    user = new Freelancer(newUsername, newPassword, newName, type, "contactNum", "emailAddress", skill.getDescription());
+                }
+
+                user_json = gson.toJson(user);
+                dbHelper.addUser(newUsername, newPassword, newName, type, user.getDescription(), user_json);
                 Toast.makeText(getApplicationContext(), "Successfully signed up.", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(SignUpActivity.this, prof.class);

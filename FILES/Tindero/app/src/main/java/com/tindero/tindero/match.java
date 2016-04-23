@@ -1,9 +1,8 @@
 package com.tindero.tindero;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class match extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,6 +37,10 @@ public class match extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Intent intent = getIntent();
+        String username = intent.getStringExtra(UserDbAdapter.KEY_USERNAME);
+        loadProfile(username);
     }
 
     @Override
@@ -89,5 +98,44 @@ public class match extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void loadProfile(String username) {
+        UserDbAdapter dbHelper = new UserDbAdapter(this);
+        dbHelper.open();
+        Cursor cursor = dbHelper.fetchUserByName(username);
+        String j = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USER_JSON));
+        System.out.println(j);
+
+        JsonParser parser = new JsonParser();
+        JsonObject o = parser.parse(j).getAsJsonObject();
+        String type = o.get("userType").getAsString();
+        System.out.println(type);
+
+        Gson gson = new Gson();
+        User user = null;
+
+        TextView tvMatchName = (TextView) findViewById(R.id.tvMatchName);
+        TextView tvMatchUserType = (TextView) findViewById(R.id.tvMatchUserType);
+        TextView tvMatchDescription = (TextView) findViewById(R.id.tvMatchDescription);
+
+        if(type.equals("Employer")) {
+            user = gson.fromJson(o, Employer.class);
+        } else if (type.equals("Freelancer")) {
+            user = gson.fromJson(o, Freelancer.class);
+        }
+
+        tvMatchName.setText(user.getFullName());
+        tvMatchUserType.setText(user.getUserType());
+        tvMatchDescription.setText(user.getDescription());
+        cursor.close();
+    }
+
+    public void dislike(View v) {
+        finish();
+    }
+
+    public void like(View v) {
+        //register observer
     }
 }
