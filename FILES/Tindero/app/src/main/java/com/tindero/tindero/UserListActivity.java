@@ -3,11 +3,8 @@ package com.tindero.tindero;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
-<<<<<<< Updated upstream
 import android.database.MatrixCursor;
-=======
 import android.graphics.Typeface;
->>>>>>> Stashed changes
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,13 +29,10 @@ public class UserListActivity extends ListActivity {
     private UserDbAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
 
-    @Override
+    @Override   
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
-        TextView tvTitle = (TextView) findViewById(R.id.tTitle) ;
-        Typeface custom = Typeface.createFromAsset(getAssets(), "fonts/Montserrat-Bold.otf");
-        tvTitle.setTypeface(custom);
         setListAdapter(dataAdapter);
 
         dbHelper = new UserDbAdapter(this);
@@ -89,7 +83,6 @@ public class UserListActivity extends ListActivity {
         });
 =======
         });**/
->>>>>>> Stashed changes
     }
 
     @Override

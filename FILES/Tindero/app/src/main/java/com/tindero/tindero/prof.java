@@ -1,11 +1,11 @@
 package com.tindero.tindero;
 
 import android.content.Intent;
-<<<<<<< Updated upstream
+
 import android.database.Cursor;
-=======
+
 import android.graphics.Typeface;
->>>>>>> Stashed changes
+
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,16 +15,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-<<<<<<< Updated upstream
+
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-=======
+
 import android.widget.TextView;
->>>>>>> Stashed changes
+
 
 public class prof extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
