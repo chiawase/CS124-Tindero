@@ -13,7 +13,7 @@
     tools:showIn="@layout/activity_home"
     tools:context="com.tindero.tindero.Home"
     android:clickable="false"
-    android:background="@drawable/whatsup">
+    android:background="#F16c6b">
 
     <ImageView
         android:layout_width="100dp"
@@ -35,8 +35,7 @@
         android:layout_marginTop="34dp"
         android:textSize="34dp"
         android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        />
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:layout_width="match_parent"
@@ -80,7 +79,8 @@
         android:textColor="#FFFFFF"
         android:layout_alignStart="@+id/etPassword"
         android:layout_below="@+id/logButton"
-        android:layout_alignEnd="@+id/etPassword" />
+        android:layout_alignEnd="@+id/etPassword"
+        android:textStyle="bold" />
 
     <Button
         android:layout_width="match_parent"

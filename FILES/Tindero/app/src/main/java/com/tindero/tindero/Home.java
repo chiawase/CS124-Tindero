@@ -28,9 +28,14 @@ public class Home extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.titleText);
         Typeface custom = Typeface.createFromAsset(getAssets(), "fonts/Montserrat-Bold.otf");
         tv.setTypeface(custom);
-
+        Typeface customR = Typeface.createFromAsset(getAssets(), "fonts/Montserrat-Regular.otf");
         Button log = (Button) findViewById(R.id.logButton);
         Button sign = (Button) findViewById(R.id.signup);
+        log.setTypeface(customR);
+        sign.setTypeface(customR);
+
+
+
 
         dbHelper = new UserDbAdapter(this);
         dbHelper.open();
@@ -179,13 +184,13 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        Button back = (Button) selectType.findViewById(R.id.bBack);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
+        //Button back = (Button) selectType.findViewById(R.id.bBack);
+        //back.setOnClickListener(new View.OnClickListener() {
+           /** @Override
             public void onClick(View v) {
                 selectType.dismiss();
             }
-        });
+        });**/
     }
 
     private void openNext(String type) {
