@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,26 +35,21 @@ public class Home extends AppCompatActivity {
 
         dbHelper = new UserDbAdapter(this);
         dbHelper.open();
-        //dbHelper.deleteAllUsers();
 
         prefs = getSharedPreferences("user_info", MODE_PRIVATE);
         editor = prefs.edit();
         editor.apply();
 
-        boolean rememberMe = prefs.getBoolean("rememberMe", false);
         String storedUser = prefs.getString(UserDbAdapter.KEY_USERNAME, "");
         String storedPass = prefs.getString(UserDbAdapter.KEY_PASSWORD, "");
 
-        if(rememberMe && dbHelper.checkIfUserExists(storedUser))
+        if(dbHelper.checkIfUserExists(storedUser))
         {
             if (prefs.contains(UserDbAdapter.KEY_USERNAME) && prefs.contains(UserDbAdapter.KEY_PASSWORD)) {
                 EditText user = (EditText) findViewById(R.id.etUsername);
                 user.setText(storedUser);
                 EditText pass = (EditText) findViewById(R.id.etPassword);
                 pass.setText(storedPass);
-
-                CheckBox cbRememberMe = (CheckBox)findViewById(R.id.cbRememberMe);
-                cbRememberMe.setChecked(true);
             }
         }
 
@@ -113,22 +107,13 @@ public class Home extends AppCompatActivity {
             String u = user.getText().toString();
             String p = pass.getText().toString();
 
-            CheckBox cbRememberMe = (CheckBox) findViewById(R.id.cbRememberMe);
-            boolean rememberMe = cbRememberMe.isChecked();
-
             if (!dbHelper.checkIfUserExists(u)) {
                 Toast.makeText(getApplicationContext(), "User does not exist.", Toast.LENGTH_SHORT).show();
             } else {
                 if (!dbHelper.checkPassword(u, p)) {
-                    clearPrefs();
                     Toast.makeText(getApplicationContext(), "Incorrect password.", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (rememberMe) {
-                        savePrefs();
-                    } else {
-                        clearPrefs();
-                    }
-
+                    savePrefs();
                     Intent intent = new Intent(Home.this, prof.class);
                     intent.putExtra(UserDbAdapter.KEY_USERNAME, u);
                     startActivity(intent);
@@ -146,16 +131,6 @@ public class Home extends AppCompatActivity {
         String p = pass.getText().toString();
         editor.putString(UserDbAdapter.KEY_PASSWORD, p);
 
-        editor.putBoolean("rememberMe", true);
-
-        editor.commit();
-    }
-
-    private void clearPrefs() {
-        editor.putBoolean("rememberMe", false);
-        //editor.remove(UserDbAdapter.KEY_USERNAME);
-        //editor.remove(UserDbAdapter.KEY_PASSWORD);
-        //editor.clear();
         editor.commit();
     }
 
@@ -180,14 +155,6 @@ public class Home extends AppCompatActivity {
                 openNext("Employer");
             }
         });
-
-        //Button back = (Button) selectType.findViewById(R.id.bBack);
-        //back.setOnClickListener(new View.OnClickListener() {
-           /** @Override
-            public void onClick(View v) {
-                selectType.dismiss();
-            }
-        });**/
     }
 
     private void openNext(String type) {

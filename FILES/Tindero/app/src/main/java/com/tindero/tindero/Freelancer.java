@@ -7,7 +7,8 @@ public class Freelancer extends User implements Subject, Observer {
 	private ArrayList<Subject> employerSubject;
 	private ArrayList<Observer> employerObserver;
 	
-	public Freelancer(String name, String pass, String fName, String type, String contactNum, String emailAddress, String desc) {
+	public Freelancer(String id, String name, String pass, String fName, String type, String contactNum, String emailAddress, String desc) {
+		setId(id);
 		setUsername(name);
 		setPassword(pass);
 		setFullName(fName);

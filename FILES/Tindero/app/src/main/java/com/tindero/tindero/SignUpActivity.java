@@ -87,9 +87,10 @@ public class SignUpActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String user_json = "";
                 User user = null;
+                String id = "" + dbHelper.getHighestId();
 
                 if(type.equals("Employer")) {
-                    user = new Employer(newUsername, newPassword, newName, type, "contactNum", "emailAddress", "");
+                    user = new Employer(id, newUsername, newPassword, newName, type, "contactNum", "emailAddress", "");
                 }
 
                 else if(type.equals("Freelancer")) {
@@ -98,7 +99,7 @@ public class SignUpActivity extends AppCompatActivity {
                     if (cbHouse.isChecked()){ skill = new HouseKeeper(skill); }
                     if (cbLaundry.isChecked()){ skill = new Laundry(skill); }
                     if (cbWater.isChecked()){ skill = new WaterThePlants(skill); }
-                    user = new Freelancer(newUsername, newPassword, newName, type, "contactNum", "emailAddress", skill.getDescription());
+                    user = new Freelancer(id, newUsername, newPassword, newName, type, "contactNum", "emailAddress", skill.getDescription());
                 }
 
                 user_json = gson.toJson(user);

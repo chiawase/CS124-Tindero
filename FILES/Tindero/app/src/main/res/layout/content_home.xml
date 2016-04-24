@@ -89,20 +89,10 @@
         android:id="@+id/logButton"
         android:background="#448ccb"
         android:textColor="#FFFFFF"
-        android:layout_below="@+id/cbRememberMe"
-        android:layout_alignStart="@+id/signup"
-        android:layout_alignEnd="@+id/signup" />
-
-        <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Remember Me"
-        android:id="@+id/cbRememberMe"
-        android:checked="false"
-        android:textColor="#FFFFFF"
         android:layout_below="@+id/etPassword"
-        android:layout_alignStart="@+id/logButton"
-        android:layout_marginTop="41dp" />
-
+        android:layout_alignStart="@+id/etPassword"
+        android:layout_alignEnd="@+id/etPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp" />
 
 </RelativeLayout>

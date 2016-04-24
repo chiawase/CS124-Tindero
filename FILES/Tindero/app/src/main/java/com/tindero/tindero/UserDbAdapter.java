@@ -66,7 +66,6 @@ public class UserDbAdapter {
 
     // LIFE CYCLE
     public UserDbAdapter(Context ctx) {
-        //ctx.deleteDatabase(DATABASE_NAME); //delete database
         this.mCtx = ctx;
     }
 
@@ -93,9 +92,6 @@ public class UserDbAdapter {
         initialValues.put(KEY_DESCRIPTION, description);
         initialValues.put(KEY_USER_JSON, user_json);
 
-        // parameters
-        // mDb.insert(table, nullColumnHack, values);
-
         return mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
@@ -108,16 +104,12 @@ public class UserDbAdapter {
         initialValues.put(KEY_USERTYPE, type);
         initialValues.put(KEY_DESCRIPTION, description);
         initialValues.put(KEY_USER_JSON, user_json);
-        // String whereArgs[] = new String[1];
-        //  whereArgs[0] = "" + rowId;
 
         return mDb.update(SQLITE_TABLE, initialValues, KEY_ROWID + "=" + rowId, null);
     }
 
     public boolean deleteAllUsers() {
         // DELETE
-        // parameters
-        // mDb.delete(table, whereClause, whereArgs)
         int doneDelete = 0;
         doneDelete = mDb.delete(SQLITE_TABLE, null, null);
         return doneDelete > 0;
@@ -204,5 +196,14 @@ public class UserDbAdapter {
         }
 
         return mCursor;
+    }
+
+    public long getHighestId () {
+        final String idQuery = "SELECT MAX(" + KEY_ROWID + ") FROM " + SQLITE_TABLE;
+        Cursor cursor = mDb.rawQuery(idQuery, null);
+        cursor.moveToFirst();
+        long id = cursor.getLong(0);
+        cursor.close();
+        return id;
     }
 }

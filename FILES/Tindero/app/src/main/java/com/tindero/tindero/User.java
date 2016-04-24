@@ -2,6 +2,7 @@ package com.tindero.tindero;
 
 public abstract class User {
 
+    private String id;
     private String username;
     private String password;
     private String fullName;
@@ -9,6 +10,14 @@ public abstract class User {
     private String contactNum;
     private String emailAddress;
     private String description = "";
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return this.username;

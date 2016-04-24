@@ -6,7 +6,8 @@ public class Employer extends User implements Subject, Observer {
 	private ArrayList<Subject> freelancerSubject;
 	private ArrayList<Observer> freelancerObserver;
 	
-	public Employer(String name, String pass, String fName, String type, String contactNum, String emailAddress, String desc) {
+	public Employer(String id, String name, String pass, String fName, String type, String contactNum, String emailAddress, String desc) {
+		setId(id);
 		setUsername(name);
 		setPassword(pass);
 		setFullName(fName);

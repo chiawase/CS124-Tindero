@@ -21,6 +21,9 @@ import com.google.gson.JsonParser;
 public class match extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    String currentUser;
+    String selectedUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +42,9 @@ public class match extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = getIntent();
-        String username = intent.getStringExtra(UserDbAdapter.KEY_USERNAME);
-        loadProfile(username);
+        selectedUser = intent.getStringExtra(UserDbAdapter.KEY_USERNAME);
+        currentUser = intent.getStringExtra("currentUser");
+        loadProfile(selectedUser);
     }
 
     @Override
@@ -101,34 +105,16 @@ public class match extends AppCompatActivity
     }
 
     public void loadProfile(String username) {
-        UserDbAdapter dbHelper = new UserDbAdapter(this);
-        dbHelper.open();
-        Cursor cursor = dbHelper.fetchUserByName(username);
-        String j = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USER_JSON));
-        System.out.println(j);
-
-        JsonParser parser = new JsonParser();
-        JsonObject o = parser.parse(j).getAsJsonObject();
-        String type = o.get("userType").getAsString();
-        System.out.println(type);
-
-        Gson gson = new Gson();
-        User user = null;
 
         TextView tvMatchName = (TextView) findViewById(R.id.tvMatchName);
         TextView tvMatchUserType = (TextView) findViewById(R.id.tvMatchUserType);
         TextView tvMatchDescription = (TextView) findViewById(R.id.tvMatchDescription);
 
-        if(type.equals("Employer")) {
-            user = gson.fromJson(o, Employer.class);
-        } else if (type.equals("Freelancer")) {
-            user = gson.fromJson(o, Freelancer.class);
-        }
+        User user = getUser(username);
 
         tvMatchName.setText(user.getFullName());
         tvMatchUserType.setText(user.getUserType());
         tvMatchDescription.setText(user.getDescription());
-        cursor.close();
     }
 
     public void dislike(View v) {
@@ -136,6 +122,54 @@ public class match extends AppCompatActivity
     }
 
     public void like(View v) {
-        //register observer
+        User selected = getUser(selectedUser);
+        User current = getUser(currentUser);
+        Employer emp;
+        Freelancer free;
+
+        if (current.getUserType().equals("Employer")) {
+            emp = new Employer(current.getId(), current.getUsername(), current.getPassword(), current.getFullName(), current.getUserType(), current.getContactNum(), current.getEmailAddress(), current.getDescription());
+            free =  new Freelancer(selected.getId(), selected.getUsername(), selected.getPassword(), selected.getFullName(), selected.getUserType(), selected.getContactNum(), selected.getEmailAddress(), selected.getDescription());
+            emp.showInterest(free);
+            updateUser(free);
+        } else if (current.getUserType().equals("Freelancer")) {
+            free = new Freelancer(current.getId(), current.getUsername(), current.getPassword(), current.getFullName(), current.getUserType(), current.getContactNum(), current.getEmailAddress(), current.getDescription());
+            emp = new Employer(selected.getId(), selected.getUsername(), selected.getPassword(), selected.getFullName(), selected.getUserType(), selected.getContactNum(), selected.getEmailAddress(), selected.getDescription());
+            free.apply(emp);
+            updateUser(emp);
+        }
+    }
+
+    public User getUser(String username) {
+        UserDbAdapter dbHelper = new UserDbAdapter(this);
+        dbHelper.open();
+        Cursor cursor = dbHelper.fetchUserByName(username);
+        String j = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USER_JSON));
+
+        JsonParser parser = new JsonParser();
+        JsonObject o = parser.parse(j).getAsJsonObject();
+        String type = o.get("userType").getAsString();
+
+        Gson gson = new Gson();
+        User user = null;
+
+        if(type.equals("Employer")) {
+            user = gson.fromJson(o, Employer.class);
+        } else if (type.equals("Freelancer")) {
+            user = gson.fromJson(o, Freelancer.class);
+        }
+
+        cursor.close();
+
+        return user;
+    }
+
+    public void updateUser(User u) {
+        UserDbAdapter dbHelper = new UserDbAdapter(this);
+        dbHelper.open();
+        Gson gson = new Gson();
+        String user_json = gson.toJson(u);
+
+        dbHelper.updateUser(u.getId(), u.getUsername(), u.getPassword(), u.getFullName(), u.getUserType(), u.getDescription(), user_json);
     }
 }

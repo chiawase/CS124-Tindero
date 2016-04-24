@@ -3,8 +3,6 @@ package com.tindero.tindero;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,27 +11,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class UserListActivity extends ListActivity {
 
     private UserDbAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
+    String currentUser;
 
     @Override   
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
         setListAdapter(dataAdapter);
+
+        Intent intent = getIntent();
+        currentUser = intent.getStringExtra("currentUser");
 
         dbHelper = new UserDbAdapter(this);
         dbHelper.open();
@@ -50,15 +47,6 @@ public class UserListActivity extends ListActivity {
         ListView lv = getListView();
         lv.setAdapter(dataAdapter);
         registerForContextMenu(lv);
-
-        //Button back = (Button) findViewById(R.id.bListBack);
-       /** back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-<<<<<<< Updated upstream
-        });
 
         EditText myFilter = (EditText) findViewById(R.id.etFilter);
         myFilter.addTextChangedListener(new TextWatcher() {
@@ -81,8 +69,6 @@ public class UserListActivity extends ListActivity {
                 return dbHelper.filterUsersByName(constraint.toString());
             }
         });
-=======
-        });**/
     }
 
     @Override
@@ -127,6 +113,7 @@ public class UserListActivity extends ListActivity {
 
         Intent intent = new Intent(UserListActivity.this, match.class);
         intent.putExtra(UserDbAdapter.KEY_USERNAME, username);
+        intent.putExtra("currentUser", currentUser);
         startActivity(intent);
     }
 }
