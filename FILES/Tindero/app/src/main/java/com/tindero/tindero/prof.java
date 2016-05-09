@@ -139,10 +139,14 @@ public class prof extends AppCompatActivity
         TextView tvProfileName = (TextView) findViewById(R.id.tvProfileName);
         TextView tvProfileUserType = (TextView) findViewById(R.id.tvProfileUserType);
         TextView tvProfileSkillsList = (TextView) findViewById(R.id.tvProfileSkillsList);
+        TextView tvProfileContact = (TextView) findViewById(R.id.tvProfileContact);
 
         tvProfileName.setText(user.getFullName());
         tvProfileUserType.setText(user.getUserType());
         tvProfileSkillsList.setText(user.getDescription());
+        tvProfileContact.setText(user.getContactNum());
+
+        checkPhoto();
     }
 
     public User getUser(String username) {
@@ -186,22 +190,20 @@ public class prof extends AppCompatActivity
 
     public void checkPhoto()
     {
-        Cursor cursor = dbHelper.fetchUserByName(currentUser); //ATTENTION!!!!!
+        Cursor cursor = dbHelper.fetchUserByName(currentUser);
 
         Bitmap bitMap;
         ImageView imageView;
 
-        if (cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_PHOTO)) !=null)
+        if (cursor.getColumnIndex(UserDbAdapter.KEY_PHOTO) != -1) //check if photo column exists
         {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 8;
             options.inDither = false;
             options.inPurgeable = true;
 
             bitMap = BitmapFactory.decodeFile(cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_PHOTO)), options);
 
             imageView = (ImageView) findViewById(R.id.imageView);
-            //bitMap = Bitmap.createScaledBitmap(bitMap, imageView.getWidth(), imageView.getHeight(), true);
             imageView.setImageBitmap(bitMap);
         }
     }

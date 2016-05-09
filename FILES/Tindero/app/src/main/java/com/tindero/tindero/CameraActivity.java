@@ -8,59 +8,54 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.File;
 
 public class CameraActivity extends AppCompatActivity {
 
-    private TextView textTargetUri;
     private ImageView targetImage;
     File outputFile;
+    Uri outputFileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        textTargetUri = (TextView)findViewById(R.id.targetUriCamera);
         targetImage = (ImageView)findViewById(R.id.targetImageCamera);
 
-        File sdCard = Environment.getExternalStorageDirectory();
-        File directory = new File (sdCard.getAbsolutePath() + "/CameraTest/");
+        File imagesFolder = new File(Environment.getExternalStorageDirectory(), "MyImages");
+        imagesFolder.mkdirs();
 
         // unique filename based on the time -- SAVE this File path
-        outputFile = new File(directory, System.currentTimeMillis()+".jpg");
+        outputFile = new File(imagesFolder, System.currentTimeMillis()+".jpg");
 
-        Uri outputFileUri = Uri.fromFile(outputFile);
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        outputFileUri = Uri.fromFile(outputFile);
 
-        startActivityForResult(intent, 0);
+        Button b = (Button) findViewById(R.id.bTakePhoto);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            try {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 8;
-                options.inDither = false;
-                options.inPurgeable = true;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inDither = false;
+        options.inPurgeable = true;
 
-                Bitmap bitMap = BitmapFactory.decodeFile(outputFile.getAbsolutePath(), options);
+        Bitmap bitMap = BitmapFactory.decodeFile(outputFile.getAbsolutePath(), options);
 
-                textTargetUri.setText(outputFile.getAbsolutePath());
-
-                //bitMap = Bitmap.createScaledBitmap(bitMap, imageView.getWidth(), imageView.getHeight(), true);
-                targetImage.setImageBitmap(bitMap);
-            } catch(Exception e) {
-                textTargetUri.setText(e.getClass().getName());
-            }
-        }
+        targetImage.setImageBitmap(bitMap);
     }
 
     public void photoDone (View v){
@@ -71,7 +66,7 @@ public class CameraActivity extends AppCompatActivity {
         String id = intent.getStringExtra(UserDbAdapter.KEY_ROWID);
         String user = intent.getStringExtra(UserDbAdapter.KEY_USERNAME);
 
-        dbHelper.updatePhoto(outputFile.getAbsolutePath(), id);
+        dbHelper.updatePhoto(id, outputFile.getAbsolutePath());
 
         intent = new Intent(CameraActivity.this, prof.class);
         intent.putExtra(UserDbAdapter.KEY_USERNAME, user);

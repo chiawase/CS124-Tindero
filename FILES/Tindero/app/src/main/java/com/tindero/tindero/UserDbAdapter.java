@@ -11,7 +11,7 @@ public class UserDbAdapter {
     protected static final String KEY_ROWID = "_id";
     protected static final String KEY_USERNAME = "username";
     protected static final String KEY_PASSWORD = "password";
-        protected static final String KEY_FULLNAME = "fullname";
+    protected static final String KEY_FULLNAME = "fullname";
     protected static final String KEY_USERTYPE = "user_type";
     protected static final String KEY_DESCRIPTION = "description";
     protected static final String KEY_USER_JSON = "user_json";
@@ -20,7 +20,7 @@ public class UserDbAdapter {
     private static DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "User Masterlist";
     private static final String SQLITE_TABLE = "Users";
 
@@ -138,7 +138,7 @@ public class UserDbAdapter {
     public Cursor fetchUsersByType(String inputText) throws SQLException {
         Cursor mCursor;
         if (inputText == null || inputText.length() == 0) {
-            throw new RuntimeException("Need a name");
+            throw new RuntimeException("Need a type");
         } else {
             mCursor = mDb.query(true,
                     SQLITE_TABLE,
@@ -220,9 +220,10 @@ public class UserDbAdapter {
         return id;
     }
 
-    public boolean updatePhoto(String photo, String rowId) {
-        ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_PHOTO, photo);
-        return mDb.update(SQLITE_TABLE, initialValues, "_id=" + rowId, null ) > 0;
+    public long updatePhoto(String rowId, String photo) {
+        ContentValues updateValues = new ContentValues();
+        updateValues.put(KEY_PHOTO, photo);
+
+        return mDb.update(SQLITE_TABLE, updateValues, KEY_ROWID + "=" + rowId, null);
     }
 }

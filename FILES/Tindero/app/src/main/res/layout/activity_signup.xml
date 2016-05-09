@@ -79,7 +79,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Skills"
         android:id="@+id/tvSkills"
-        android:layout_below="@+id/etSignFullName"
+        android:layout_below="@+id/etSignContact"
         android:layout_alignStart="@+id/etSignFullName"
         android:layout_marginTop="25dp"/>
 
@@ -135,5 +135,24 @@
         android:id="@+id/bSignBack"
         android:layout_alignTop="@+id/bSignFinish"
         android:layout_toEndOf="@+id/etSignFullName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Contact Number"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/etSignFullName"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="25dp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/etSignContact"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

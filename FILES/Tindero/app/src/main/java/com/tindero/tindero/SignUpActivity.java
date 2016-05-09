@@ -65,10 +65,12 @@ public class SignUpActivity extends AppCompatActivity {
         EditText signUser = (EditText) findViewById(R.id.etSignUsername);
         EditText signPass = (EditText) findViewById(R.id.etSignPassword);
         EditText signName = (EditText) findViewById(R.id.etSignFullName);
+        EditText signContact = (EditText) findViewById(R.id.etSignContact);
 
         String newUsername = signUser.getText().toString();
         String newPassword = signPass.getText().toString();
         String newName = signName.getText().toString();
+        String newContact = signContact.getText().toString();
 
         if (newUsername.length() == 0 || newPassword.length() == 0 || newName.length() == 0) {
             Toast.makeText(getApplicationContext(), "Field(s) must not be empty", Toast.LENGTH_SHORT).show();
@@ -90,7 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String id = "" + dbHelper.getHighestId();
 
                 if(type.equals("Employer")) {
-                    user = new Employer(id, newUsername, newPassword, newName, type, "contactNum", "emailAddress", "");
+                    user = new Employer(id, newUsername, newPassword, newName, type, newContact, "emailAddress", "");
                 }
 
                 else if(type.equals("Freelancer")) {
@@ -99,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
                     if (cbHouse.isChecked()){ skill = new HouseKeeper(skill); }
                     if (cbLaundry.isChecked()){ skill = new Laundry(skill); }
                     if (cbWater.isChecked()){ skill = new WaterThePlants(skill); }
-                    user = new Freelancer(id, newUsername, newPassword, newName, type, "contactNum", "emailAddress", skill.getDescription());
+                    user = new Freelancer(id, newUsername, newPassword, newName, type, newContact, "emailAddress", skill.getDescription());
                 }
 
                 user_json = gson.toJson(user);
