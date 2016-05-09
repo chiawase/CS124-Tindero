@@ -3,7 +3,6 @@ package com.tindero.tindero;
 import java.util.ArrayList;
 
 public class Freelancer extends User implements Subject, Observer {
-	private double rating;
 	private ArrayList<Subject> employerSubject;
 	private ArrayList<Observer> employerObserver;
 	
@@ -17,8 +16,8 @@ public class Freelancer extends User implements Subject, Observer {
 		setEmailAddress(emailAddress);
 		setDescription(desc);
 
-		employerSubject = new ArrayList<Subject>();
-		employerObserver = new ArrayList<Observer>();
+		employerSubject = new ArrayList<>();
+		employerObserver = new ArrayList<>();
 	}
 
 	@Override
@@ -54,8 +53,7 @@ public class Freelancer extends User implements Subject, Observer {
 		
 	}
 	
-	public ArrayList<Observer> getObserver()
-	{
+	public ArrayList<Observer> getObserver() {
 		return employerObserver;
 	}
 }

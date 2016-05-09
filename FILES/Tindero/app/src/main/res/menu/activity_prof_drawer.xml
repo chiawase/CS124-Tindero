@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_matches"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Matches" />
+            android:title="View Matches" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_slideshow"

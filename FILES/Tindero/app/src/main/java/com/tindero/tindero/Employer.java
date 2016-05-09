@@ -16,8 +16,8 @@ public class Employer extends User implements Subject, Observer {
 		setEmailAddress(emailAddress);
 		setDescription(desc);
 
-		freelancerObserver = new ArrayList<Observer>();
-		freelancerSubject = new ArrayList<Subject>();
+		freelancerObserver = new ArrayList<>();
+		freelancerSubject = new ArrayList<>();
 	}
 
 	@Override

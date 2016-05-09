@@ -108,13 +108,6 @@ public class UserDbAdapter {
         return mDb.update(SQLITE_TABLE, initialValues, KEY_ROWID + "=" + rowId, null);
     }
 
-    public boolean deleteAllUsers() {
-        // DELETE
-        int doneDelete = 0;
-        doneDelete = mDb.delete(SQLITE_TABLE, null, null);
-        return doneDelete > 0;
-    }
-
     public boolean deleteUser(String rowId) {
 
         return mDb.delete(SQLITE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
@@ -131,6 +124,25 @@ public class UserDbAdapter {
                     SQLITE_TABLE,
                     new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_DESCRIPTION, KEY_USER_JSON },
                     KEY_USERNAME + " = '" + inputText + "'",
+                    null, null, null, null, null);
+        }
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+
+        return mCursor;
+    }
+
+    public Cursor fetchUsersByType(String inputText) throws SQLException {
+        Cursor mCursor;
+        if (inputText == null || inputText.length() == 0) {
+            throw new RuntimeException("Need a name");
+        } else {
+            mCursor = mDb.query(true,
+                    SQLITE_TABLE,
+                    new String[]{KEY_ROWID, KEY_USERNAME, KEY_PASSWORD, KEY_FULLNAME, KEY_USERTYPE, KEY_DESCRIPTION, KEY_USER_JSON },
+                    KEY_USERTYPE + " = '" + inputText + "'",
                     null, null, null, null, null);
         }
 

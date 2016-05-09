@@ -3,6 +3,7 @@ package com.tindero.tindero;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,34 +18,49 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class UserListActivity extends ListActivity {
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.util.ArrayList;
+
+public class MatchListActivity extends ListActivity {
 
     private UserDbAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
     String currentUser;
-    String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_list);
+        setContentView(R.layout.activity_match_list);
         setListAdapter(dataAdapter);
 
         Intent intent = getIntent();
         currentUser = intent.getStringExtra("currentUser");
-        userType = intent.getStringExtra("userType");
 
         dbHelper = new UserDbAdapter(this);
         dbHelper.open();
-        Cursor cursor = null;
-        EditText myFilter = (EditText) findViewById(R.id.etFilter);
+        User user = getUser(currentUser);
+        Employer emp;
+        Freelancer free;
 
-        if (userType.equals("Employer")) {
-            cursor = dbHelper.fetchUsersByType("Freelancer");
-            myFilter.setHint("Find freelancer...");
-        } else if (userType.equals("Freelancer")) {
-            cursor = dbHelper.fetchUsersByType("Employer");
-            myFilter.setHint("Find employer...");
+        MergeCursor cursor = null;
+
+        if (user.getUserType().equals("Employer")) {
+            emp = new Employer(user.getId(), user.getUsername(), user.getPassword(), user.getFullName(), user.getUserType(), user.getContactNum(), user.getEmailAddress(), user.getDescription());
+            ArrayList<Observer> temp = emp.getObserver();
+            for(Observer t: temp) {
+                User tuser = (User) t;
+                cursor = new MergeCursor (new Cursor [] {cursor, dbHelper.fetchUserByName(tuser.getUsername())});
+            }
+        } else if (user.getUserType().equals("Freelancer")) {
+            free = new Freelancer(user.getId(), user.getUsername(), user.getPassword(), user.getFullName(), user.getUserType(), user.getContactNum(), user.getEmailAddress(), user.getDescription());
+            ArrayList<Observer> temp = free.getObserver();
+            for(Observer t: temp) {
+                User tuser = (User) t;
+                cursor = new MergeCursor (new Cursor [] {cursor, dbHelper.fetchUserByName(tuser.getUsername())});
+            }
         }
 
         dataAdapter = new SimpleCursorAdapter(this,
@@ -57,6 +73,8 @@ public class UserListActivity extends ListActivity {
         ListView lv = getListView();
         lv.setAdapter(dataAdapter);
         registerForContextMenu(lv);
+
+        EditText myFilter = (EditText) findViewById(R.id.etFilterSubscriber);
 
         myFilter.addTextChangedListener(new TextWatcher() {
 
@@ -90,13 +108,14 @@ public class UserListActivity extends ListActivity {
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item)
+    {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
                 .getMenuInfo();
         final int position = info.position;
 
         switch (item.getItemId()) {
-            case R.id.delete:
+            case R.id.delete: // TODO change to remove observer
                 ListView lv = getListView();
                 Cursor cursor = (Cursor) lv.getItemAtPosition(position);
                 final String del = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_ROWID));
@@ -119,9 +138,35 @@ public class UserListActivity extends ListActivity {
         Cursor cursor = (Cursor)l.getAdapter().getItem(position);
         String username = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USERNAME));
 
-        Intent intent = new Intent(UserListActivity.this, match.class);
+        Intent intent = new Intent(MatchListActivity.this, prof.class);
         intent.putExtra(UserDbAdapter.KEY_USERNAME, username);
         intent.putExtra("currentUser", currentUser);
         startActivity(intent);
+    }
+
+    public User getUser(String username) {
+        UserDbAdapter dbHelper = new UserDbAdapter(this);
+        dbHelper.open();
+        Cursor cursor = dbHelper.fetchUserByName(username);
+        String j = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USER_JSON));
+
+        JsonParser parser = new JsonParser();
+        JsonObject o = parser.parse(j).getAsJsonObject();
+        String type = o.get("userType").getAsString();
+
+        Gson gson = new Gson();
+        Freelancer f;
+        Employer e;
+
+        cursor.close();
+
+        if(type.equals("Employer")) {
+            e = gson.fromJson(o, Employer.class);
+            return e;
+
+        } else {
+            f = gson.fromJson(o, Freelancer.class);
+            return f;
+        }
     }
 }

@@ -24,6 +24,7 @@ public class prof extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     String currentUser;
+    String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +101,10 @@ public class prof extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_matches) {
+            Intent intent = new Intent(prof.this, MatchListActivity.class);
+            intent.putExtra("currentUser", currentUser);
+            intent.putExtra("userType", userType);
+            startActivity(intent);
 
         } else if (id == R.id.nav_profile) {
 
@@ -108,6 +113,7 @@ public class prof extends AppCompatActivity
         } else if (id == R.id.nav_view) {
             Intent intent = new Intent(prof.this, UserListActivity.class);
             intent.putExtra("currentUser", currentUser);
+            intent.putExtra("userType", userType);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
 
@@ -140,22 +146,23 @@ public class prof extends AppCompatActivity
 
         JsonParser parser = new JsonParser();
         JsonObject o = parser.parse(j).getAsJsonObject();
-        String type = o.get("userType").getAsString();
-
-        Gson gson = new Gson();
-        User user = null;
-
-        if(type.equals("Employer")) {
-            TextView tvProfileSkills = (TextView) findViewById(R.id.tvProfileSkills);
-            tvProfileSkills.setVisibility(View.GONE);
-            user = gson.fromJson(o, Employer.class);
-        } else if (type.equals("Freelancer")) {
-            user = gson.fromJson(o, Freelancer.class);
-        }
+        userType = o.get("userType").getAsString();
 
         cursor.close();
 
-        return user;
+        Gson gson = new Gson();
+        Freelancer f;
+        Employer e;
+
+        if(userType.equals("Employer")) {
+            TextView tvProfileSkills = (TextView) findViewById(R.id.tvProfileSkills);
+            tvProfileSkills.setVisibility(View.GONE);
+            e = gson.fromJson(o, Employer.class);
+            return e;
+        } else {
+            f = gson.fromJson(o, Freelancer.class);
+            return f;
+        }
     }
 
     public void turnOffNotifications(View v) {
