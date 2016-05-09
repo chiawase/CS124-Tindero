@@ -48,27 +48,27 @@ public class MatchListActivity extends ListActivity {
         MergeCursor cursor = null;
 
         if (user.getUserType().equals("Employer")) {
-            emp = new Employer(user.getId(), user.getUsername(), user.getPassword(), user.getFullName(), user.getUserType(), user.getContactNum(), user.getEmailAddress(), user.getDescription());
-            ArrayList<Observer> temp = emp.getObserver();
-            for(Observer t: temp) {
-                User tuser = (User) t;
-                cursor = new MergeCursor (new Cursor [] {cursor, dbHelper.fetchUserByName(tuser.getUsername())});
+            emp = (Employer) user;
+
+            ArrayList<String> temp = emp.getObserverNames();
+            for(String t: temp) {
+                cursor = new MergeCursor (new Cursor [] {dbHelper.fetchUserByName(t)});
             }
         } else if (user.getUserType().equals("Freelancer")) {
-            free = new Freelancer(user.getId(), user.getUsername(), user.getPassword(), user.getFullName(), user.getUserType(), user.getContactNum(), user.getEmailAddress(), user.getDescription());
-            ArrayList<Observer> temp = free.getObserver();
-            for(Observer t: temp) {
-                User tuser = (User) t;
-                cursor = new MergeCursor (new Cursor [] {cursor, dbHelper.fetchUserByName(tuser.getUsername())});
+            free = (Freelancer) user;
+
+            ArrayList<String> temp = free.getObserverNames();
+            for(String t: temp) {
+                cursor = new MergeCursor (new Cursor [] {dbHelper.fetchUserByName(t)});
             }
         }
 
         dataAdapter = new SimpleCursorAdapter(this,
                 R.layout.row,
                 cursor,
-                new String[] { UserDbAdapter.KEY_FULLNAME, UserDbAdapter.KEY_USERTYPE , UserDbAdapter.KEY_DESCRIPTION },
-                new int[]    { R.id.listFullName, R.id.listUserType, R.id.listDescription },
-                0 );
+                new String[]{UserDbAdapter.KEY_FULLNAME, UserDbAdapter.KEY_USERTYPE, UserDbAdapter.KEY_DESCRIPTION},
+                new int[]{R.id.listFullName, R.id.listUserType, R.id.listDescription},
+                0);
 
         ListView lv = getListView();
         lv.setAdapter(dataAdapter);
@@ -145,8 +145,6 @@ public class MatchListActivity extends ListActivity {
     }
 
     public User getUser(String username) {
-        UserDbAdapter dbHelper = new UserDbAdapter(this);
-        dbHelper.open();
         Cursor cursor = dbHelper.fetchUserByName(username);
         String j = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USER_JSON));
 
@@ -155,18 +153,16 @@ public class MatchListActivity extends ListActivity {
         String type = o.get("userType").getAsString();
 
         Gson gson = new Gson();
-        Freelancer f;
-        Employer e;
+        User user = null;
 
         cursor.close();
 
         if(type.equals("Employer")) {
-            e = gson.fromJson(o, Employer.class);
-            return e;
-
-        } else {
-            f = gson.fromJson(o, Freelancer.class);
-            return f;
+            user = gson.fromJson(o, Employer.class);
+        } else if (type.equals("Freelancer")) {
+            user = gson.fromJson(o, Freelancer.class);
         }
+
+        return user;
     }
 }

@@ -13,12 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import java.util.ArrayList;
 
 public class match extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -132,27 +131,24 @@ public class match extends AppCompatActivity
     public void like(View v) {
         User selected = getUser(selectedUser);
         User current = getUser(currentUser);
-        Employer emp = null;
-        Freelancer free = null;
+        Employer emp;
+        Freelancer free;
 
         if (current.getUserType().equals("Employer")) {
-            emp = new Employer(current.getId(), current.getUsername(), current.getPassword(), current.getFullName(), current.getUserType(), current.getContactNum(), current.getEmailAddress(), current.getDescription());
-            free =  new Freelancer(selected.getId(), selected.getUsername(), selected.getPassword(), selected.getFullName(), selected.getUserType(), selected.getContactNum(), selected.getEmailAddress(), selected.getDescription());
-            emp.showInterest(free);
+            emp = (Employer) current;
+            free =  (Freelancer) selected;
+            //emp.showInterest(free);
+            free.addObserverName(emp.getUsername());
+            updateUser(free);
+            Toast.makeText(getApplicationContext(), "You are now subscribed to " + free.getFullName(), Toast.LENGTH_SHORT).show();
         } else if (current.getUserType().equals("Freelancer")) {
-            free = new Freelancer(current.getId(), current.getUsername(), current.getPassword(), current.getFullName(), current.getUserType(), current.getContactNum(), current.getEmailAddress(), current.getDescription());
-            emp = new Employer(selected.getId(), selected.getUsername(), selected.getPassword(), selected.getFullName(), selected.getUserType(), selected.getContactNum(), selected.getEmailAddress(), selected.getDescription());
-            free.apply(emp);
+            free = (Freelancer) current;
+            emp = (Employer) selected;
+            //free.apply(emp);
+            emp.addObserverName(free.getUsername());
+            updateUser(emp);
+            Toast.makeText(getApplicationContext(), "You are now subscribed to " + emp.getFullName(), Toast.LENGTH_SHORT).show();
         }
-
-        //test
-        ArrayList<Observer> temp = emp.getObserver();
-        for(Observer t: temp) {
-            User user = (User) t;
-            System.out.println(user.getFullName() + " is subscribed to " + emp.getFullName());
-        }
-        //updateUser(free); TODO fix problem serializing object's arraylist
-        //updateUser(emp);
     }
 
     public User getUser(String username) {
@@ -175,7 +171,7 @@ public class match extends AppCompatActivity
         return user;
     }
 
-    public void updateUser(User u) {
+    public void updateUser(User u) { //TODO fix problem serializing object's arraylist
         String user_json = gson.toJson(u);
         dbHelper.updateUser(u.getId(), u.getUsername(), u.getPassword(), u.getFullName(), u.getUserType(), u.getDescription(), user_json);
     }

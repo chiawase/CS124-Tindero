@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Employer extends User implements Subject, Observer {
 	private ArrayList<Subject> freelancerSubject;
 	private ArrayList<Observer> freelancerObserver;
+	private ArrayList<String> freelancerObserverNames;
 	
 	public Employer(String id, String name, String pass, String fName, String type, String contactNum, String emailAddress, String desc) {
 		setId(id);
@@ -18,6 +19,7 @@ public class Employer extends User implements Subject, Observer {
 
 		freelancerObserver = new ArrayList<>();
 		freelancerSubject = new ArrayList<>();
+		freelancerObserverNames = new ArrayList<>();
 	}
 
 	@Override
@@ -56,5 +58,11 @@ public class Employer extends User implements Subject, Observer {
 	public void showInterest(Subject e) {
 		freelancerSubject.add(e);
 		e.registerObserver(this);
+	}
+
+	public ArrayList<String> getObserverNames () { return freelancerObserverNames; }
+
+	public void addObserverName(String name) {
+		freelancerObserverNames.add(name);
 	}
 }
