@@ -103,11 +103,12 @@ public class SignUpActivity extends AppCompatActivity {
                 }
 
                 user_json = gson.toJson(user);
-                dbHelper.addUser(newUsername, newPassword, newName, type, user.getDescription(), user_json);
+                dbHelper.addUser(newUsername, newPassword, newName, type, user.getDescription(), user_json, "");
                 Toast.makeText(getApplicationContext(), "Successfully signed up.", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(SignUpActivity.this, prof.class);
+                Intent intent = new Intent(SignUpActivity.this, CameraActivity.class);
                 intent.putExtra(UserDbAdapter.KEY_USERNAME, newUsername);
+                intent.putExtra(UserDbAdapter.KEY_ROWID, id);
                 startActivity(intent);
             }
         }

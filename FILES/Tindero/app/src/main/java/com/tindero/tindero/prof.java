@@ -2,6 +2,8 @@ package com.tindero.tindero;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -25,6 +28,7 @@ public class prof extends AppCompatActivity
 
     String currentUser;
     String userType;
+    private UserDbAdapter dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,9 @@ public class prof extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        dbHelper = new UserDbAdapter(this);
+        dbHelper.open();
 
         Intent intent = getIntent();
         currentUser = intent.getStringExtra(UserDbAdapter.KEY_USERNAME);
@@ -139,8 +146,6 @@ public class prof extends AppCompatActivity
     }
 
     public User getUser(String username) {
-        UserDbAdapter dbHelper = new UserDbAdapter(this);
-        dbHelper.open();
         Cursor cursor = dbHelper.fetchUserByName(username);
         String j = cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_USER_JSON));
 
@@ -177,5 +182,27 @@ public class prof extends AppCompatActivity
         Intent intent = new Intent(this, Home.class);
         startActivity(intent);
         finish();
+    }
+
+    public void checkPhoto()
+    {
+        Cursor cursor = dbHelper.fetchUserByName(currentUser); //ATTENTION!!!!!
+
+        Bitmap bitMap;
+        ImageView imageView;
+
+        if (cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_PHOTO)) !=null)
+        {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 8;
+            options.inDither = false;
+            options.inPurgeable = true;
+
+            bitMap = BitmapFactory.decodeFile(cursor.getString(cursor.getColumnIndexOrThrow(UserDbAdapter.KEY_PHOTO)), options);
+
+            imageView = (ImageView) findViewById(R.id.imageView);
+            //bitMap = Bitmap.createScaledBitmap(bitMap, imageView.getWidth(), imageView.getHeight(), true);
+            imageView.setImageBitmap(bitMap);
+        }
     }
 }

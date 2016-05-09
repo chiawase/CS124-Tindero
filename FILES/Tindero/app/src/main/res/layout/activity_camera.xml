@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:padding="16dp"
+    tools:context="com.tindero.tindero.CameraActivity">
+
+    <TextView
+        android:id="@+id/targetUriCamera"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/targetImageCamera"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignEnd="@+id/targetUriCamera"
+        android:layout_above="@+id/bPhotoDone"
+        android:layout_below="@+id/targetUriCamera" />
+
+    <requestFocus />
+
+    <Button
+        android:id="@+id/bPhotoDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="5dp"
+        android:onClick="photoDone"
+        android:text="Finish"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

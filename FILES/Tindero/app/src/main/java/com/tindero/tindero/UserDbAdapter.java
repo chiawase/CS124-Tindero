@@ -11,10 +11,11 @@ public class UserDbAdapter {
     protected static final String KEY_ROWID = "_id";
     protected static final String KEY_USERNAME = "username";
     protected static final String KEY_PASSWORD = "password";
-    protected static final String KEY_USER_JSON = "user_json";
-    protected static final String KEY_FULLNAME = "fullname";
+        protected static final String KEY_FULLNAME = "fullname";
     protected static final String KEY_USERTYPE = "user_type";
     protected static final String KEY_DESCRIPTION = "description";
+    protected static final String KEY_USER_JSON = "user_json";
+    protected static final String KEY_PHOTO = "photo";
 
     private static DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -35,7 +36,8 @@ public class UserDbAdapter {
                     + KEY_FULLNAME + ","
                     + KEY_USERTYPE + ","
                     + KEY_DESCRIPTION + ","
-                    + KEY_USER_JSON + ");";
+                    + KEY_USER_JSON + ","
+                    + KEY_PHOTO + ");";
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -82,8 +84,7 @@ public class UserDbAdapter {
         }
     }
 
-    public long addUser(String user, String pass, String fName, String type, String description, String user_json) {
-        // INSERT
+    public long addUser(String user, String pass, String fName, String type, String description, String user_json, String photo) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_USERNAME, user);
         initialValues.put(KEY_PASSWORD, pass);
@@ -91,21 +92,21 @@ public class UserDbAdapter {
         initialValues.put(KEY_USERTYPE, type);
         initialValues.put(KEY_DESCRIPTION, description);
         initialValues.put(KEY_USER_JSON, user_json);
+        initialValues.put(KEY_PHOTO, photo);
 
         return mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
     public long updateUser(String rowId, String user, String pass, String fName, String type, String description, String user_json) {
-        // INSERT
-        ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_USERNAME, user);
-        initialValues.put(KEY_PASSWORD, pass);
-        initialValues.put(KEY_FULLNAME, fName);
-        initialValues.put(KEY_USERTYPE, type);
-        initialValues.put(KEY_DESCRIPTION, description);
-        initialValues.put(KEY_USER_JSON, user_json);
+        ContentValues updateValues = new ContentValues();
+        updateValues.put(KEY_USERNAME, user);
+        updateValues.put(KEY_PASSWORD, pass);
+        updateValues.put(KEY_FULLNAME, fName);
+        updateValues.put(KEY_USERTYPE, type);
+        updateValues.put(KEY_DESCRIPTION, description);
+        updateValues.put(KEY_USER_JSON, user_json);
 
-        return mDb.update(SQLITE_TABLE, initialValues, KEY_ROWID + "=" + rowId, null);
+        return mDb.update(SQLITE_TABLE, updateValues, KEY_ROWID + "=" + rowId, null);
     }
 
     public boolean deleteUser(String rowId) {
@@ -217,5 +218,11 @@ public class UserDbAdapter {
         long id = cursor.getLong(0);
         cursor.close();
         return id;
+    }
+
+    public boolean updatePhoto(String photo, String rowId) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_PHOTO, photo);
+        return mDb.update(SQLITE_TABLE, initialValues, "_id=" + rowId, null ) > 0;
     }
 }
